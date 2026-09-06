@@ -20,9 +20,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Text Preprocessing & NLP Pipeline
 
-- [ ] **NLP-01**: Raw text cleaning (HTML tag removal, email headers/urls/punctuation handling, lowercasing)
-- [ ] **NLP-02**: Tokenization, stopword removal, and lemmatization (using NLTK/WordNetLemmatizer)
-- [ ] **NLP-03**: Reusable scikit-learn pipeline transformer for seamless training and inference
+- [x] **NLP-01**: Raw text cleaning (HTML tag removal, email headers/urls/punctuation handling, lowercasing)
+- [x] **NLP-02**: Tokenization, stopword removal, and lemmatization (using NLTK/WordNetLemmatizer)
+- [x] **NLP-03**: Reusable scikit-learn pipeline transformer for seamless training and inference
 
 ### Feature Engineering
 
@@ -78,9 +78,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-01 | Phase 2 | Complete |
 | DATA-02 | Phase 2 | Complete |
 | DATA-03 | Phase 2 | Complete |
-| NLP-01 | Phase 2 | Pending |
-| NLP-02 | Phase 2 | Pending |
-| NLP-03 | Phase 2 | Pending |
+| NLP-01 | Phase 2 | Complete |
+| NLP-02 | Phase 2 | Complete |
+| NLP-03 | Phase 2 | Complete |
 | FEAT-01 | Phase 3 | Pending |
 | FEAT-02 | Phase 3 | Pending |
 | FEAT-03 | Phase 3 | Pending |
