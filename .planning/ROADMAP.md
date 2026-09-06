@@ -47,9 +47,13 @@ Plans:
 **Plans**: TBD
 
 Plans:
+
+- [x] 02-01-PLAN.md
+- [ ] 02-02-PLAN.md
+
 **Wave 1**
 
-- [ ] 02-01: Dataset loaders for email and SMS datasets with stratified splitting.
+- [x] 02-01: Dataset loaders for email and SMS datasets with stratified splitting.
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -138,7 +142,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Environment & Project Foundation | 1/1 | Complete   | 2026-09-06 |
-| 2. Data Ingestion & NLP Preprocessing Pipeline | 0/2 | Not started | - |
+| 2. Data Ingestion & NLP Preprocessing Pipeline | 1/2 | In Progress|  |
 | 3. Feature Engineering & Feature Union | 0/2 | Not started | - |
 | 4. Model Training Harness & Persistence | 0/2 | Not started | - |
 | 5. Evaluation Suite & Explainability Engine | 0/2 | Not started | - |

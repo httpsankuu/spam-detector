@@ -14,9 +14,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Dataset Ingestion & Preparation
 
-- [ ] **DATA-01**: Email dataset loader (supporting Enron / SpamAssassin / Kaggle spam corpora)
-- [ ] **DATA-02**: Standardized data schema (`text`, `label` where spam=1, ham=0) with stratified train/test split
-- [ ] **DATA-03**: SMS Spam Collection (UCI) dataset ingestion module
+- [x] **DATA-01**: Email dataset loader (supporting Enron / SpamAssassin / Kaggle spam corpora)
+- [x] **DATA-02**: Standardized data schema (`text`, `label` where spam=1, ham=0) with stratified train/test split
+- [x] **DATA-03**: SMS Spam Collection (UCI) dataset ingestion module
 
 ### Text Preprocessing & NLP Pipeline
 
@@ -75,9 +75,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | ENV-01 | Phase 1 | Complete |
 | ENV-02 | Phase 1 | Complete |
-| DATA-01 | Phase 2 | Pending |
-| DATA-02 | Phase 2 | Pending |
-| DATA-03 | Phase 2 | Pending |
+| DATA-01 | Phase 2 | Complete |
+| DATA-02 | Phase 2 | Complete |
+| DATA-03 | Phase 2 | Complete |
 | NLP-01 | Phase 2 | Pending |
 | NLP-02 | Phase 2 | Pending |
 | NLP-03 | Phase 2 | Pending |
