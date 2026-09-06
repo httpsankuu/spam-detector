@@ -6,7 +6,7 @@
     {
       "number": "1",
       "name": "Environment & Project Foundation",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "2",
@@ -35,9 +35,9 @@
     }
   ],
   "next": {
-    "command": "/gsd-progress --next",
-    "label": "Advance to the next step",
-    "reason": "Phase 1 of 6 · 0% · executing"
+    "command": "/gsd-progress",
+    "label": "Show progress",
+    "reason": "Unsure of state — showing progress"
   },
-  "updated_at": "2026-09-06T13:52:09.695Z"
+  "updated_at": "2026-09-06T14:03:14.608Z"
 }

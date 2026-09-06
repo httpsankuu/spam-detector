@@ -7,7 +7,7 @@ This roadmap delivers a complete college machine learning project following a st
 ## Phases
 
 - [x] **Phase 1: Environment & Project Foundation** - Project directory structure, virtualenv requirements, and dependency verification. (completed 2026-09-06)
-- [ ] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** - Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer.
+- [x] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** - Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer. (completed 2026-09-06)
 - [ ] **Phase 3: Feature Engineering & Feature Union** - Word n-gram TF-IDF vectorizer and handcrafted indicator feature union.
 - [ ] **Phase 4: Model Training Harness & Persistence** - Step-by-step training of MNB, Logistic Regression, Linear SVM, and XGBoost/RF with serialization.
 - [ ] **Phase 5: Evaluation Suite & Explainability Engine** - Comprehensive multi-metric benchmark, ROC/confusion plots, and keyword explainability.
@@ -57,7 +57,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 02-02: NLP cleaning, tokenization, stopword removal, and lemmatization pipeline transformer.
+- [x] 02-02: NLP cleaning, tokenization, stopword removal, and lemmatization pipeline transformer.
 
 ### Phase 3: Feature Engineering & Feature Union
 
@@ -142,7 +142,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Environment & Project Foundation | 1/1 | Complete   | 2026-09-06 |
-| 2. Data Ingestion & NLP Preprocessing Pipeline | 2/2 | In Progress|  |
+| 2. Data Ingestion & NLP Preprocessing Pipeline | 2/2 | Complete   | 2026-09-06 |
 | 3. Feature Engineering & Feature Union | 0/2 | Not started | - |
 | 4. Model Training Harness & Persistence | 0/2 | Not started | - |
 | 5. Evaluation Suite & Explainability Engine | 0/2 | Not started | - |
