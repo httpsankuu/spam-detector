@@ -8,25 +8,30 @@
 Requirements for initial release. Each maps to roadmap phases.
 
 ### Environment & Project Setup
-- [ ] **ENV-01**: Clean modular project structure (`src/`, `data/`, `notebooks/`, `models/`, `app/`) with `requirements.txt`
-- [ ] **ENV-02**: Dependency verification and NLTK resource downloader utility
+
+- [x] **ENV-01**: Clean modular project structure (`src/`, `data/`, `notebooks/`, `models/`, `app/`) with `requirements.txt`
+- [x] **ENV-02**: Dependency verification and NLTK resource downloader utility
 
 ### Dataset Ingestion & Preparation
+
 - [ ] **DATA-01**: Email dataset loader (supporting Enron / SpamAssassin / Kaggle spam corpora)
 - [ ] **DATA-02**: Standardized data schema (`text`, `label` where spam=1, ham=0) with stratified train/test split
 - [ ] **DATA-03**: SMS Spam Collection (UCI) dataset ingestion module
 
 ### Text Preprocessing & NLP Pipeline
+
 - [ ] **NLP-01**: Raw text cleaning (HTML tag removal, email headers/urls/punctuation handling, lowercasing)
 - [ ] **NLP-02**: Tokenization, stopword removal, and lemmatization (using NLTK/WordNetLemmatizer)
 - [ ] **NLP-03**: Reusable scikit-learn pipeline transformer for seamless training and inference
 
 ### Feature Engineering
+
 - [ ] **FEAT-01**: Word n-gram TF-IDF vectorization (unigrams and bigrams with configurable vocab limit)
 - [ ] **FEAT-02**: Handcrafted feature extractors (link/URL count, uppercase character ratio, spam trigger keyword frequency)
 - [ ] **FEAT-03**: Unified feature union / column transformer combining TF-IDF and dense handcrafted features
 
 ### Model Training & Persistence
+
 - [ ] **MODL-01**: Multinomial Naive Bayes classifier trained and tuned as baseline
 - [ ] **MODL-02**: Logistic Regression classifier trained with regularized loss
 - [ ] **MODL-03**: Linear Support Vector Machine (LinearSVC) classifier trained
@@ -34,11 +39,13 @@ Requirements for initial release. Each maps to roadmap phases.
 - [ ] **MODL-05**: Model serialization & persistence mechanism saving trained pipelines to disk
 
 ### Evaluation & Explainability
+
 - [ ] **EVAL-01**: Multi-metric evaluation reporting Precision, Recall, F1-score, and Accuracy on held-out test split
 - [ ] **EVAL-02**: Confusion matrices and ROC-AUC curve visualization generation
 - [ ] **EVAL-03**: Top spam/ham feature contribution explainability module
 
 ### Interactive Streamlit Web Demo
+
 - [ ] **UI-01**: Interactive single-message text tester for user-submitted emails/SMS
 - [ ] **UI-02**: Real-time prediction display with spam/ham label, confidence score, and risk indicator
 - [ ] **UI-03**: Highlighted explainability breakdown displaying detected spam keywords and feature metrics
@@ -66,8 +73,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ENV-01 | Phase 1 | Pending |
-| ENV-02 | Phase 1 | Pending |
+| ENV-01 | Phase 1 | Complete |
+| ENV-02 | Phase 1 | Complete |
 | DATA-01 | Phase 2 | Pending |
 | DATA-02 | Phase 2 | Pending |
 | DATA-03 | Phase 2 | Pending |
@@ -91,6 +98,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | UI-04 | Phase 6 | Pending |
 
 **Coverage:**
+
 - v1 requirements: 23 total
 - Mapped to phases: 23
 - Unmapped: 0 ✓
