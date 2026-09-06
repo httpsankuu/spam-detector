@@ -15,6 +15,13 @@ from typing import Dict, Tuple
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+try:
+    from config.config import RANDOM_SEED, TEST_RATIO, VAL_RATIO
+except ImportError:
+    RANDOM_SEED = 42
+    TEST_RATIO = 0.2
+    VAL_RATIO = 0.1
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -25,9 +32,9 @@ logger = logging.getLogger("split_data")
 
 def split_dataset(
     df: pd.DataFrame,
-    test_size: float = 0.2,
-    val_size: float = 0.1,
-    random_state: int = 42,
+    test_size: float = TEST_RATIO,
+    val_size: float = VAL_RATIO,
+    random_state: int = RANDOM_SEED,
 ) -> Tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """
     Split a DataFrame into stratified train, validation, and test sets.

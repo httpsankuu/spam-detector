@@ -20,21 +20,53 @@ An end-to-end college machine learning system that accurately classifies emails 
 
 ## Technology Stack
 
-Technology stack not yet documented. Will populate after codebase mapping or first phase.
+- **Runtime & Environment**: Python 3.10+ on Windows, virtualenv + pip.
+- **Data & Numeric**: `pandas`, `numpy`, `scipy`.
+- **Natural Language Processing**: `nltk` (WordNetLemmatizer, stopwords, punkt).
+- **Machine Learning**: `scikit-learn` (MultinomialNB, LogisticRegression, LinearSVC, RandomForestClassifier, Pipeline, metrics), `xgboost` (XGBClassifier).
+- **Visualization**: `matplotlib` (Agg headless backend), `seaborn`.
+- **Web Application**: `streamlit`.
+- **Artifact Serialization**: `joblib`.
+- **Testing**: `pytest`.
+
 <!-- GSD:stack-end -->
 
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+- **Centralized Configuration**: All paths, seeds, thresholds, and hyperparameters are declared in `config/config.py`.
+- **Standardized Schema**: Every dataset loader normalizes tabular outputs to `['text', 'label']` where 1=spam, 0=ham.
+- **Feature Preservation**: Raw URLs, emails, currencies, and numbers are replaced with semantic tokens (`httpaddr`, `emailaddr`, `dollar`, `number`) during text cleaning.
+- **Pipeline Architecture**: All components implement scikit-learn's `BaseEstimator` and `TransformerMixin` contracts so feature transformations and estimators bundle into single `.joblib` files.
+- **Model Explainability**: Predictions are decomposed into word contributions and structural metric contributions ($x_i \cdot w_i$).
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 
 ## Architecture
 
-Architecture not yet mapped. Follow existing patterns found in the codebase.
+```
+spam-detector/
+├── app/streamlit_app.py      # Streamlit web UI (tabs: live classifier, benchmarks, architecture)
+├── config/config.py          # Central configuration & parameters
+├── data/
+│   ├── raw/                  # Starter sample emails & SMS
+│   └── processed/            # Stratified train, val, test splits
+├── models/                   # Serialized ML pipelines (*.joblib) and model_metadata.json
+├── reports/
+│   ├── test_benchmark.json   # Multi-metric test evaluation scores
+│   └── figures/              # confusion_matrices.png, roc_curves.png, metrics_comparison.png
+├── src/
+│   ├── data/                 # EmailDataLoader, SMSDataLoader, split_dataset
+│   ├── preprocessing/        # clean_text, tokenize_and_lemmatize, TextPreprocessor
+│   ├── features/             # TFIDFExtractor, HandcraftedFeatureExtractor, UnifiedFeaturePipeline
+│   ├── models/               # NaiveBayes, LogisticRegression, SVM, Ensembles, trainer
+│   ├── evaluation/           # ModelEvaluator, plot generators, SpamExplainer
+│   └── utils/                # setup_env.py
+└── tests/
+    └── test_pipeline.py      # Automated pytest unit and integration test suite
+```
 <!-- GSD:architecture-end -->
 
 <!-- GSD:skills-start source:skills/ -->

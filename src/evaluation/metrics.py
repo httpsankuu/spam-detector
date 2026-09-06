@@ -24,6 +24,16 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
+try:
+    from config.config import MODELS_DIR, TEST_BENCHMARK_JSON, TEST_DATA_PATH
+    DEFAULT_MODELS_DIR = str(MODELS_DIR)
+    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
+    DEFAULT_OUTPUT_JSON = str(TEST_BENCHMARK_JSON)
+except ImportError:
+    DEFAULT_MODELS_DIR = "models"
+    DEFAULT_TEST_PATH = "data/processed/test.csv"
+    DEFAULT_OUTPUT_JSON = "reports/test_benchmark.json"
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -37,7 +47,7 @@ class ModelEvaluator:
     Evaluator harness that tests persisted scikit-learn pipelines on held-out data.
     """
 
-    def __init__(self, models_dir: str = "models") -> None:
+    def __init__(self, models_dir: str = DEFAULT_MODELS_DIR) -> None:
         self.models_dir = models_dir
         self.models_: Dict[str, Any] = {}
         self.load_models()
@@ -89,12 +99,30 @@ class ModelEvaluator:
         cm = confusion_matrix(y_test, preds)
         tn, fp, fn, tp = cm.ravel() if cm.size == 4 else (0, 0, 0, 0)
 
+        # Per-class metrics
+        spam_prec = float(precision_score(y_test, preds, pos_label=1, zero_division=0))
+        spam_rec = float(recall_score(y_test, preds, pos_label=1, zero_division=0))
+        spam_f1 = float(f1_score(y_test, preds, pos_label=1, zero_division=0))
+
+        ham_prec = float(precision_score(y_test, preds, pos_label=0, zero_division=0))
+        ham_rec = float(recall_score(y_test, preds, pos_label=0, zero_division=0))
+        ham_f1 = float(f1_score(y_test, preds, pos_label=0, zero_division=0))
+
+        macro_f1 = float(f1_score(y_test, preds, average="macro", zero_division=0))
+
         return {
             "model_name": model_name,
             "accuracy": float(accuracy_score(y_test, preds)),
-            "precision": float(precision_score(y_test, preds, zero_division=0)),
-            "recall": float(recall_score(y_test, preds, zero_division=0)),
-            "f1_score": float(f1_score(y_test, preds, zero_division=0)),
+            "spam_precision": spam_prec,
+            "spam_recall": spam_rec,
+            "spam_f1": spam_f1,
+            "ham_precision": ham_prec,
+            "ham_recall": ham_rec,
+            "ham_f1": ham_f1,
+            "macro_f1": macro_f1,
+            "precision": spam_prec,  # backwards compatibility
+            "recall": spam_rec,      # backwards compatibility
+            "f1_score": spam_f1,     # backwards compatibility
             "roc_auc": roc_auc,
             "confusion_matrix": {
                 "tn": int(tn),
@@ -108,8 +136,8 @@ class ModelEvaluator:
 
     def evaluate_all(
         self,
-        test_path: str = "data/processed/test.csv",
-        output_json: str = "reports/test_benchmark.json",
+        test_path: str = DEFAULT_TEST_PATH,
+        output_json: str = DEFAULT_OUTPUT_JSON,
     ) -> pd.DataFrame:
         """
         Evaluate all loaded models on test data, print comparison table, and save JSON report.
@@ -128,12 +156,19 @@ class ModelEvaluator:
             res = self.evaluate_model(model_name, X_test, y_test)
             results.append(res)
 
-        # Create summary DataFrame
+        # Create summary DataFrame with both per-class and overall metrics
         summary_rows = []
         for r in results:
             summary_rows.append({
                 "Model": r["model_name"],
                 "Accuracy": r["accuracy"],
+                "Spam Precision": r["spam_precision"],
+                "Spam Recall": r["spam_recall"],
+                "Spam F1": r["spam_f1"],
+                "Ham Precision": r["ham_precision"],
+                "Ham Recall": r["ham_recall"],
+                "Ham F1": r["ham_f1"],
+                "Macro F1": r["macro_f1"],
                 "Precision": r["precision"],
                 "Recall": r["recall"],
                 "F1-Score": r["f1_score"],
@@ -144,7 +179,7 @@ class ModelEvaluator:
                 "TP": r["confusion_matrix"]["tp"],
             })
 
-        summary_df = pd.DataFrame(summary_rows).sort_values(by="F1-Score", ascending=False)
+        summary_df = pd.DataFrame(summary_rows).sort_values(by="Spam F1", ascending=False)
 
         print("\n" + "=" * 80)
         print("                HELD-OUT TEST SPLIT BENCHMARK LEADERBOARD                ")

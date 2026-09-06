@@ -76,7 +76,29 @@ class TFIDFExtractor(BaseEstimator, TransformerMixin):
         Returns:
             self
         """
-        self.vectorizer_.fit(X)
+        docs = list(X)
+        n_docs = len(docs)
+        # Prevent ValueError when dataset is tiny (e.g. unit tests or tiny slices)
+        effective_min_df = self.min_df
+        if isinstance(effective_min_df, int) and n_docs <= effective_min_df:
+            effective_min_df = 1
+
+        effective_max_df = self.max_df
+        if n_docs <= 2 and isinstance(effective_max_df, float):
+            effective_max_df = 1.0
+
+        if effective_min_df != self.min_df or effective_max_df != self.max_df:
+            self.vectorizer_ = TfidfVectorizer(
+                max_features=self.max_features,
+                ngram_range=self.ngram_range,
+                min_df=effective_min_df,
+                max_df=effective_max_df,
+                sublinear_tf=self.sublinear_tf,
+                use_idf=self.use_idf,
+                norm=self.norm,
+            )
+
+        self.vectorizer_.fit(docs)
         return self
 
     def transform(self, X: Iterable[str]) -> sp.csr_matrix:

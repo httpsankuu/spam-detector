@@ -25,22 +25,32 @@ An end-to-end machine learning system that accurately classifies emails (and SMS
 
 ```
 spam-detector/
-├── app/                      # Streamlit web application & dashboards
+├── app/                      # Streamlit web application & interactive dashboards
+│   └── streamlit_app.py      # Main web application entry point
+├── config/                   # Centralized configuration & hyperparameters
+│   ├── __init__.py
+│   └── config.py             # Paths, seeds, ratios, and model hyperparameters
 ├── data/
-│   ├── raw/                  # Raw downloaded datasets (Enron, SMS Spam, etc.)
-│   └── processed/            # Cleaned and stratified train/val/test splits
-├── models/                   # Serialized ML pipelines (.joblib) and metadata
+│   ├── raw/                  # Raw starter datasets (sample_emails.csv, sample_sms.csv)
+│   └── processed/            # Cleaned and stratified splits (train.csv, val.csv, test.csv)
+├── models/                   # Serialized ML pipelines (.joblib) and model_metadata.json
 ├── notebooks/                # Exploratory Data Analysis & step-by-step walkthroughs
+├── reports/                  # Benchmark metrics JSON & publication figures (300 DPI)
+│   ├── test_benchmark.json   # Full held-out test evaluation scores
+│   └── figures/              # Confusion matrices, ROC curves, metrics bar charts
 ├── src/                      # Core modular Python packages
 │   ├── __init__.py
 │   ├── data/                 # Dataset downloaders, loaders, and splitters
 │   ├── preprocessing/        # Text cleaners, tokenizers, and lemmatizer transformers
-│   ├── features/             # TF-IDF extractors and handcrafted feature union
-│   ├── models/               # Model training harnesses and predictors
+│   ├── features/             # TF-IDF n-grams, handcrafted features & composite pipeline
+│   ├── models/               # Model wrappers (NB, LR, SVM, RF, XGBoost) and training harness
+│   ├── evaluation/           # Benchmarking metrics, plotting, and explainability engine
 │   └── utils/                # Environment verification and helper scripts
 │       └── setup_env.py      # Automated health check & NLTK corpus bootstrap
+├── tests/                    # Automated pytest test suite
+│   └── test_pipeline.py      # Unit and integration tests for all modules
 ├── .gitignore                # Git exclusions (virtualenvs, cache, binary models)
-├── AGENTS.md                 # Project agent instructions & development conventions
+├── AGENTS.md                 # Project architecture & development conventions
 ├── README.md                 # Project documentation and setup guide
 └── requirements.txt          # Pinned Python package dependencies
 ```
@@ -59,6 +69,7 @@ spam-detector/
 | **Visualizations** | `matplotlib`, `seaborn` |
 | **Web Interface** | `streamlit` |
 | **Model Serialization** | `joblib` |
+| **Testing** | `pytest` |
 
 ---
 
@@ -76,12 +87,6 @@ cd spam-detector
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-```
-
-**On Windows (Command Prompt):**
-```cmd
-python -m venv .venv
-.\.venv\Scripts\activate.bat
 ```
 
 **On Linux / macOS:**
@@ -102,16 +107,36 @@ Run the built-in health-check utility to verify that all dependencies are instal
 python -m src.utils.setup_env
 ```
 
+### 5. Launch the Interactive Web App
+Launch the interactive Streamlit interface:
+```bash
+streamlit run app/streamlit_app.py
+```
+Open your browser at `http://localhost:8501`.
+
+### 6. Retrain Models & Regenerate Figures (Optional)
+To retrain all 5 models and re-evaluate benchmarks:
+```bash
+# 1. Train and serialize all 5 models
+python -m src.models.trainer
+
+# 2. Evaluate held-out test split and regenerate diagnostic plots
+python -m src.evaluation.plots
+
+# 3. Run automated tests
+pytest -v
+```
+
 ---
 
 ## 🗺 Development Roadmap
 
 - [x] **Phase 1: Environment & Project Foundation** — Project scaffolding, `requirements.txt`, and automated dependency/NLTK verification utility.
-- [ ] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** — Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer.
-- [ ] **Phase 3: Feature Engineering & Feature Union** — Word n-gram TF-IDF vectorizer combined with handcrafted indicator extractors (links, caps ratio, trigger keywords).
-- [ ] **Phase 4: Model Training Harness & Persistence** — Step-by-step training and serialization of Multinomial Naive Bayes, Logistic Regression, Linear SVM, and Random Forest / XGBoost.
-- [ ] **Phase 5: Evaluation Suite & Explainability Engine** — Multi-metric benchmark (Precision, Recall, F1, ROC-AUC), confusion matrices/ROC curves, and top keyword explainability.
-- [ ] **Phase 6: Interactive Streamlit Web Application** — Interactive demo with live message testing, confidence scores, keyword highlights, and comparative charts.
+- [x] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** — Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer.
+- [x] **Phase 3: Feature Engineering & Feature Union** — Word n-gram TF-IDF vectorizer combined with handcrafted indicator extractors (links, caps ratio, trigger keywords).
+- [x] **Phase 4: Model Training Harness & Persistence** — Step-by-step training and serialization of Multinomial Naive Bayes, Logistic Regression, Linear SVM, and Random Forest / XGBoost.
+- [x] **Phase 5: Evaluation Suite & Explainability Engine** — Multi-metric benchmark (Precision, Recall, F1, ROC-AUC), confusion matrices/ROC curves, and top keyword explainability.
+- [x] **Phase 6: Interactive Streamlit Web Application** — Interactive demo with live message testing, confidence scores, keyword highlights, and comparative charts.
 
 ---
 

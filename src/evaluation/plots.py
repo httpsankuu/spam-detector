@@ -24,6 +24,26 @@ from sklearn.metrics import auc, roc_curve
 
 from src.evaluation.metrics import ModelEvaluator
 
+try:
+    from config.config import (
+        CONFUSION_MATRICES_PNG,
+        METRICS_COMPARISON_PNG,
+        ROC_CURVES_PNG,
+        TEST_BENCHMARK_JSON,
+        TEST_DATA_PATH,
+    )
+    DEFAULT_BENCHMARK_JSON = str(TEST_BENCHMARK_JSON)
+    DEFAULT_CM_PNG = str(CONFUSION_MATRICES_PNG)
+    DEFAULT_ROC_PNG = str(ROC_CURVES_PNG)
+    DEFAULT_METRICS_PNG = str(METRICS_COMPARISON_PNG)
+    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
+except ImportError:
+    DEFAULT_BENCHMARK_JSON = "reports/test_benchmark.json"
+    DEFAULT_CM_PNG = "reports/figures/confusion_matrices.png"
+    DEFAULT_ROC_PNG = "reports/figures/roc_curves.png"
+    DEFAULT_METRICS_PNG = "reports/figures/metrics_comparison.png"
+    DEFAULT_TEST_PATH = "data/processed/test.csv"
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -36,8 +56,8 @@ plt.style.use("seaborn-v0_8-whitegrid" if "seaborn-v0_8-whitegrid" in plt.style.
 
 
 def plot_confusion_matrices(
-    benchmark_json_path: str = "reports/test_benchmark.json",
-    output_path: str = "reports/figures/confusion_matrices.png",
+    benchmark_json_path: str = DEFAULT_BENCHMARK_JSON,
+    output_path: str = DEFAULT_CM_PNG,
 ) -> str:
     """
     Render a 2x3 grid of annotated confusion matrix heatmaps.
@@ -99,8 +119,8 @@ def plot_confusion_matrices(
 
 def plot_roc_curves(
     evaluator: Optional[ModelEvaluator] = None,
-    test_path: str = "data/processed/test.csv",
-    output_path: str = "reports/figures/roc_curves.png",
+    test_path: str = DEFAULT_TEST_PATH,
+    output_path: str = DEFAULT_ROC_PNG,
 ) -> str:
     """
     Render combined ROC Curves for all classifiers with AUC legend scores.
@@ -145,8 +165,8 @@ def plot_roc_curves(
 
 
 def plot_metrics_comparison_bar(
-    benchmark_json_path: str = "reports/test_benchmark.json",
-    output_path: str = "reports/figures/metrics_comparison.png",
+    benchmark_json_path: str = DEFAULT_BENCHMARK_JSON,
+    output_path: str = DEFAULT_METRICS_PNG,
 ) -> str:
     """
     Render grouped bar chart comparing Accuracy, Precision, Recall, and F1 across models.

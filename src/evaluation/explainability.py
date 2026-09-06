@@ -20,6 +20,12 @@ import numpy as np
 
 from src.features.handcrafted_features import SPAM_TRIGGER_WORDS
 
+try:
+    from config.config import LOGISTIC_REGRESSION_MODEL_PATH
+    DEFAULT_MODEL_PATH = str(LOGISTIC_REGRESSION_MODEL_PATH)
+except ImportError:
+    DEFAULT_MODEL_PATH = "models/logistic_regression_pipeline.joblib"
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -33,7 +39,7 @@ class SpamExplainer:
     Explainability engine built upon transparent linear model coefficients.
     """
 
-    def __init__(self, model_path: str = "models/logistic_regression_pipeline.joblib") -> None:
+    def __init__(self, model_path: str = DEFAULT_MODEL_PATH) -> None:
         self.model_path = model_path
         if not os.path.exists(self.model_path):
             raise FileNotFoundError(f"Model pipeline not found at {self.model_path}")

@@ -30,6 +30,25 @@ from src.models.naive_bayes import build_nb_pipeline
 from src.models.svm_classifier import build_svm_pipeline
 from src.models.tree_classifier import build_ensemble_pipeline
 
+try:
+    from config.config import (
+        MODELS_DIR,
+        PROCESSED_DATA_DIR,
+        RANDOM_SEED,
+        TFIDF_MAX_FEATURES,
+        TRAIN_DATA_PATH,
+        VAL_DATA_PATH,
+    )
+    DEFAULT_TRAIN_PATH = str(TRAIN_DATA_PATH)
+    DEFAULT_VAL_PATH = str(VAL_DATA_PATH)
+    DEFAULT_MODELS_DIR = str(MODELS_DIR)
+    DEFAULT_MAX_FEATURES = TFIDF_MAX_FEATURES
+except ImportError:
+    DEFAULT_TRAIN_PATH = "data/processed/train.csv"
+    DEFAULT_VAL_PATH = "data/processed/val.csv"
+    DEFAULT_MODELS_DIR = "models"
+    DEFAULT_MAX_FEATURES = 5000
+
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s",
@@ -39,10 +58,10 @@ logger = logging.getLogger("trainer")
 
 
 def train_and_persist_all(
-    train_path: str = "data/processed/train.csv",
-    val_path: str = "data/processed/val.csv",
-    output_dir: str = "models",
-    max_features: int = 5000,
+    train_path: str = DEFAULT_TRAIN_PATH,
+    val_path: str = DEFAULT_VAL_PATH,
+    output_dir: str = DEFAULT_MODELS_DIR,
+    max_features: int = DEFAULT_MAX_FEATURES,
 ) -> Dict[str, Any]:
     """
     Train all 5 classifiers, evaluate on validation set, and persist pipelines to disk.
