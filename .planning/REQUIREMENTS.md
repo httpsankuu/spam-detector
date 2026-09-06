@@ -46,10 +46,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Interactive Streamlit Web Demo
 
-- [ ] **UI-01**: Interactive single-message text tester for user-submitted emails/SMS
-- [ ] **UI-02**: Real-time prediction display with spam/ham label, confidence score, and risk indicator
-- [ ] **UI-03**: Highlighted explainability breakdown displaying detected spam keywords and feature metrics
-- [ ] **UI-04**: Model benchmark comparison tab displaying comparative tables, confusion matrices, and ROC curves
+- [x] **UI-01**: Interactive single-message text tester for user-submitted emails/SMS
+- [x] **UI-02**: Real-time prediction display with spam/ham label, confidence score, and risk indicator
+- [x] **UI-03**: Highlighted explainability breakdown displaying detected spam keywords and feature metrics
+- [x] **UI-04**: Model benchmark comparison tab displaying comparative tables, confusion matrices, and ROC curves
 
 ## v2 Requirements
 
@@ -92,10 +92,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | EVAL-01 | Phase 5 | Complete |
 | EVAL-02 | Phase 5 | Complete |
 | EVAL-03 | Phase 5 | Complete |
-| UI-01 | Phase 6 | Pending |
-| UI-02 | Phase 6 | Pending |
-| UI-03 | Phase 6 | Pending |
-| UI-04 | Phase 6 | Pending |
+| UI-01 | Phase 6 | Complete |
+| UI-02 | Phase 6 | Complete |
+| UI-03 | Phase 6 | Complete |
+| UI-04 | Phase 6 | Complete |
 
 **Coverage:**
 
