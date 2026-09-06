@@ -32,11 +32,11 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Model Training & Persistence
 
-- [ ] **MODL-01**: Multinomial Naive Bayes classifier trained and tuned as baseline
-- [ ] **MODL-02**: Logistic Regression classifier trained with regularized loss
-- [ ] **MODL-03**: Linear Support Vector Machine (LinearSVC) classifier trained
-- [ ] **MODL-04**: Ensemble tree-based classifier (Random Forest / XGBoost) trained
-- [ ] **MODL-05**: Model serialization & persistence mechanism saving trained pipelines to disk
+- [x] **MODL-01**: Multinomial Naive Bayes classifier trained and tuned as baseline
+- [x] **MODL-02**: Logistic Regression classifier trained with regularized loss
+- [x] **MODL-03**: Linear Support Vector Machine (LinearSVC) classifier trained
+- [x] **MODL-04**: Ensemble tree-based classifier (Random Forest / XGBoost) trained
+- [x] **MODL-05**: Model serialization & persistence mechanism saving trained pipelines to disk
 
 ### Evaluation & Explainability
 
@@ -84,11 +84,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | FEAT-01 | Phase 3 | Complete |
 | FEAT-02 | Phase 3 | Complete |
 | FEAT-03 | Phase 3 | Complete |
-| MODL-01 | Phase 4 | Pending |
-| MODL-02 | Phase 4 | Pending |
-| MODL-03 | Phase 4 | Pending |
-| MODL-04 | Phase 4 | Pending |
-| MODL-05 | Phase 4 | Pending |
+| MODL-01 | Phase 4 | Complete |
+| MODL-02 | Phase 4 | Complete |
+| MODL-03 | Phase 4 | Complete |
+| MODL-04 | Phase 4 | Complete |
+| MODL-05 | Phase 4 | Complete |
 | EVAL-01 | Phase 5 | Pending |
 | EVAL-02 | Phase 5 | Pending |
 | EVAL-03 | Phase 5 | Pending |
