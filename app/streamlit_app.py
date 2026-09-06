@@ -13,7 +13,14 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
+from pathlib import Path
 from typing import Any, Dict, List, Optional
+
+# Ensure project root directory is in Python's search path when run via `streamlit run app/streamlit_app.py`
+project_root = Path(__file__).resolve().parent.parent
+if str(project_root) not in sys.path:
+    sys.path.insert(0, str(project_root))
 
 import joblib
 import numpy as np
