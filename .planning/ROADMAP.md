@@ -8,10 +8,11 @@ This roadmap delivers a complete college machine learning project following a st
 
 - [x] **Phase 1: Environment & Project Foundation** - Project directory structure, virtualenv requirements, and dependency verification. (completed 2026-09-06)
 - [x] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** - Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer. (completed 2026-09-06)
-- [ ] **Phase 3: Feature Engineering & Feature Union** - Word n-gram TF-IDF vectorizer and handcrafted indicator feature union.
+- [x] **Phase 3: Feature Engineering & Feature Union** - Word n-gram TF-IDF vectorizer and handcrafted indicator feature union. (completed 2026-09-06)
 - [ ] **Phase 4: Model Training Harness & Persistence** - Step-by-step training of MNB, Logistic Regression, Linear SVM, and XGBoost/RF with serialization.
 - [ ] **Phase 5: Evaluation Suite & Explainability Engine** - Comprehensive multi-metric benchmark, ROC/confusion plots, and keyword explainability.
 - [ ] **Phase 6: Interactive Streamlit Web Application** - Interactive UI for single-message spam testing, confidence score, explainability, and comparative metrics dashboard.
+
 
 ## Phase Details
 
@@ -74,8 +75,8 @@ Plans:
 
 Plans:
 
-- [ ] 03-01: TF-IDF n-gram vectorizer configuration and handcrafted feature extractor.
-- [ ] 03-02: Unified FeatureUnion pipeline integration and transformed matrix caching.
+- [x] 03-01: TF-IDF n-gram vectorizer configuration and handcrafted feature extractor.
+- [x] 03-02: Unified FeatureUnion pipeline integration and transformed matrix caching.
 
 ### Phase 4: Model Training Harness & Persistence
 
@@ -143,7 +144,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 |-------|----------------|--------|-----------|
 | 1. Environment & Project Foundation | 1/1 | Complete   | 2026-09-06 |
 | 2. Data Ingestion & NLP Preprocessing Pipeline | 2/2 | Complete   | 2026-09-06 |
-| 3. Feature Engineering & Feature Union | 0/2 | Not started | - |
+| 3. Feature Engineering & Feature Union | 2/2 | Complete   | 2026-09-06 |
 | 4. Model Training Harness & Persistence | 0/2 | Not started | - |
 | 5. Evaluation Suite & Explainability Engine | 0/2 | Not started | - |
 | 6. Interactive Streamlit Web Application | 0/2 | Not started | - |

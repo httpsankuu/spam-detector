@@ -26,9 +26,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Feature Engineering
 
-- [ ] **FEAT-01**: Word n-gram TF-IDF vectorization (unigrams and bigrams with configurable vocab limit)
-- [ ] **FEAT-02**: Handcrafted feature extractors (link/URL count, uppercase character ratio, spam trigger keyword frequency)
-- [ ] **FEAT-03**: Unified feature union / column transformer combining TF-IDF and dense handcrafted features
+- [x] **FEAT-01**: Word n-gram TF-IDF vectorization (unigrams and bigrams with configurable vocab limit)
+- [x] **FEAT-02**: Handcrafted feature extractors (link/URL count, uppercase character ratio, spam trigger keyword frequency)
+- [x] **FEAT-03**: Unified feature union / column transformer combining TF-IDF and dense handcrafted features
 
 ### Model Training & Persistence
 
@@ -81,9 +81,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NLP-01 | Phase 2 | Complete |
 | NLP-02 | Phase 2 | Complete |
 | NLP-03 | Phase 2 | Complete |
-| FEAT-01 | Phase 3 | Pending |
-| FEAT-02 | Phase 3 | Pending |
-| FEAT-03 | Phase 3 | Pending |
+| FEAT-01 | Phase 3 | Complete |
+| FEAT-02 | Phase 3 | Complete |
+| FEAT-03 | Phase 3 | Complete |
 | MODL-01 | Phase 4 | Pending |
 | MODL-02 | Phase 4 | Pending |
 | MODL-03 | Phase 4 | Pending |
