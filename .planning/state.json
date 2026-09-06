@@ -1,0 +1,43 @@
+{
+  "contract": "1.0.0",
+  "flavor": "core",
+  "milestone": null,
+  "phases": [
+    {
+      "number": "1",
+      "name": "Environment & Project Foundation",
+      "status": "pending"
+    },
+    {
+      "number": "2",
+      "name": "Data Ingestion & NLP Preprocessing Pipeline",
+      "status": "pending"
+    },
+    {
+      "number": "3",
+      "name": "Feature Engineering & Feature Union",
+      "status": "pending"
+    },
+    {
+      "number": "4",
+      "name": "Model Training Harness & Persistence",
+      "status": "pending"
+    },
+    {
+      "number": "5",
+      "name": "Evaluation Suite & Explainability Engine",
+      "status": "pending"
+    },
+    {
+      "number": "6",
+      "name": "Interactive Streamlit Web Application",
+      "status": "pending"
+    }
+  ],
+  "next": {
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 1 of 6 · 0% · executing"
+  },
+  "updated_at": "2026-09-06T13:52:09.695Z"
+}
