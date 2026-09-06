@@ -40,9 +40,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Evaluation & Explainability
 
-- [ ] **EVAL-01**: Multi-metric evaluation reporting Precision, Recall, F1-score, and Accuracy on held-out test split
-- [ ] **EVAL-02**: Confusion matrices and ROC-AUC curve visualization generation
-- [ ] **EVAL-03**: Top spam/ham feature contribution explainability module
+- [x] **EVAL-01**: Multi-metric evaluation reporting Precision, Recall, F1-score, and Accuracy on held-out test split
+- [x] **EVAL-02**: Confusion matrices and ROC-AUC curve visualization generation
+- [x] **EVAL-03**: Top spam/ham feature contribution explainability module
 
 ### Interactive Streamlit Web Demo
 
@@ -89,9 +89,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | MODL-03 | Phase 4 | Complete |
 | MODL-04 | Phase 4 | Complete |
 | MODL-05 | Phase 4 | Complete |
-| EVAL-01 | Phase 5 | Pending |
-| EVAL-02 | Phase 5 | Pending |
-| EVAL-03 | Phase 5 | Pending |
+| EVAL-01 | Phase 5 | Complete |
+| EVAL-02 | Phase 5 | Complete |
+| EVAL-03 | Phase 5 | Complete |
 | UI-01 | Phase 6 | Pending |
 | UI-02 | Phase 6 | Pending |
 | UI-03 | Phase 6 | Pending |
