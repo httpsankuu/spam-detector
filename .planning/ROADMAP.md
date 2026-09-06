@@ -47,8 +47,12 @@ Plans:
 **Plans**: TBD
 
 Plans:
+**Wave 1**
 
 - [ ] 02-01: Dataset loaders for email and SMS datasets with stratified splitting.
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 02-02: NLP cleaning, tokenization, stopword removal, and lemmatization pipeline transformer.
 
 ### Phase 3: Feature Engineering & Feature Union
