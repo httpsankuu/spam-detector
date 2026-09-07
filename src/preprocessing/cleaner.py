@@ -13,7 +13,7 @@ from typing import Optional
 
 # Precompiled regular expressions for high-throughput regex cleaning
 HTML_TAG_RE = re.compile(r"<[^>]+>")
-EMAIL_HEADER_RE = re.compile(r"^(subject|from|to|cc|date|reply-to):\s*", re.IGNORECASE)
+EMAIL_HEADER_RE = re.compile(r"^(subject|from|to|cc|date|reply-to):\s*", re.IGNORECASE | re.MULTILINE)
 URL_RE = re.compile(r"https?://\S+|www\.\S+", re.IGNORECASE)
 EMAIL_ADDR_RE = re.compile(r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b")
 CURRENCY_RE = re.compile(r"[$£€¥₹]")

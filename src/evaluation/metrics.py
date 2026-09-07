@@ -181,7 +181,9 @@ class ModelEvaluator:
         print("=" * 80)
 
         # Save to JSON
-        os.makedirs(os.path.dirname(output_json), exist_ok=True)
+        out_dir = os.path.dirname(output_json)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump({
                 "test_samples": len(test_df),
