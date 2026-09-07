@@ -10,13 +10,14 @@ Accurate, well-evaluated, and explainable spam email classification with an intu
 
 ## Current Milestone
 
-**v2.0 — Hardened and Production-Ready**
-
-Fix all critical reproducibility, data quality, configuration, and app robustness issues identified in the post-v1.0 audit so the project is credible for capstone presentation.
+*(Planning Next Milestone)*
 
 ## Requirements
 
-### Validated (v1.0)
+### Validated
+
+**v1.0 MVP**
+
 
 - [x] Project directory structure and environment configuration (Python, scikit-learn, XGBoost, NLTK, Streamlit) — Phase 1
 - [x] Dataset acquisition and loader for email and SMS (UCI SMS Spam Collection) — Phase 2
@@ -27,22 +28,26 @@ Fix all critical reproducibility, data quality, configuration, and app robustnes
 - [x] Prediction explainability component (keyword + feature attribution) — Phase 5
 - [x] Interactive Streamlit web application with live inference, confidence score, explainability, and benchmark dashboard — Phase 6
 
-### Active (v2.0)
+**v2.0 Hardened and Production-Ready**
 
-- [ ] Bootstrap script (`scripts/bootstrap.py`) that downloads real data → splits → trains all 5 models end-to-end so fresh clones work immediately (FIX-01)
-- [ ] Real UCI SMS dataset integration (~5.5k messages) replacing the 30-row synthetic training set; re-generate benchmark JSON and figures with honest numbers (FIX-02)
-- [ ] Fix `SMSDataLoader.download_uci_dataset()` fallback to return the actual bundled sample file instead of a non-existent path (FIX-03)
-- [ ] Wire `config/config.py` constants (hyperparams, NLP flags, paths) through all model factories and `TextPreprocessor` so the "centralized configuration" is real (FIX-04)
-- [ ] Remove all `try/except ImportError` config fallback blocks in trainer, metrics, plots, explainability, split_data — replace with direct imports (FIX-05)
-- [ ] Fix `TFIDFExtractor.fit_transform` to apply the same `min_df`/`max_df` small-dataset guards as `fit` + `transform` (FIX-06)
-- [ ] Fix Streamlit "Clear Text" button using `key=` on `st.text_area` and `st.session_state` manipulation (FIX-07)
-- [ ] Add graceful app startup error handling — when models dir is missing, show "run bootstrap first" message instead of crashing (FIX-08)
-- [ ] Route explainability to the selected model (LR, SVM, NB) rather than always using Logistic Regression regardless of user's choice (FIX-09)
-- [ ] Pin all versions in `requirements.txt` based on the current working install (FIX-10)
-- [ ] Scope SSL verification workaround in `setup_env.py` to only the NLTK download call (FIX-11)
-- [ ] Strip `y_pred`/`y_prob` arrays from `test_benchmark.json` — keep summary metrics only (FIX-12)
-- [ ] Fix model metadata to use cross-platform forward-slash paths (FIX-13)
-- [ ] Remove unused typing imports across model modules; fix `digit_ratio` magic constant; swap sidebar remote icon for local emoji; fix `EMAIL_HEADER_RE` anchor; fix `os.makedirs` edge case (FIX-14)
+- [x] Bootstrap script (`scripts/bootstrap.py`) that downloads real data → splits → trains all 5 models end-to-end so fresh clones work immediately - v2.0 (FIX-01)
+- [x] Real UCI SMS dataset integration (~5.5k messages) replacing the 30-row synthetic training set; re-generate benchmark JSON and figures with honest numbers - v2.0 (FIX-02)
+- [x] Fix `SMSDataLoader.download_uci_dataset()` fallback to return the actual bundled sample file instead of a non-existent path - v2.0 (FIX-03)
+- [x] Wire `config/config.py` constants (hyperparams, NLP flags, paths) through all model factories and `TextPreprocessor` so the "centralized configuration" is real - v2.0 (FIX-04)
+- [x] Remove all `try/except ImportError` config fallback blocks in trainer, metrics, plots, explainability, split_data — replace with direct imports - v2.0 (FIX-05)
+- [x] Fix `TFIDFExtractor.fit_transform` to apply the same `min_df`/`max_df` small-dataset guards as `fit` + `transform` - v2.0 (FIX-06)
+- [x] Fix Streamlit "Clear Text" button using `key=` on `st.text_area` and `st.session_state` manipulation - v2.0 (FIX-07)
+- [x] Add graceful app startup error handling — when models dir is missing, show "run bootstrap first" message instead of crashing - v2.0 (FIX-08)
+- [x] Route explainability to the selected model (LR, SVM, NB) rather than always using Logistic Regression regardless of user's choice - v2.0 (FIX-09)
+- [x] Pin all versions in `requirements.txt` based on the current working install - v2.0 (FIX-10)
+- [x] Scope SSL verification workaround in `setup_env.py` to only the NLTK download call - v2.0 (FIX-11)
+- [x] Strip `y_pred`/`y_prob` arrays from `test_benchmark.json` — keep summary metrics only - v2.0 (FIX-12)
+- [x] Fix model metadata to use cross-platform forward-slash paths - v2.0 (FIX-13)
+- [x] Remove unused typing imports across model modules; fix `digit_ratio` magic constant; swap sidebar remote icon for local emoji; fix `EMAIL_HEADER_RE` anchor; fix `os.makedirs` edge case - v2.0 (FIX-14)
+
+### Active
+
+(None currently)
 
 ### Out of Scope
 
@@ -93,4 +98,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-09-07 — Milestone v2.0 started*
+*Last updated: 2026-09-07 after v2.0 milestone completion*
