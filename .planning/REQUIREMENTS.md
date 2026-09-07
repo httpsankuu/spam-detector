@@ -1,108 +1,66 @@
-# Requirements: AI-Based Spam Email Detection using Machine Learning
+# Requirements — Milestone v2.0: Hardened and Production-Ready
 
-**Defined:** 2026-09-06
-**Core Value:** Accurate, well-evaluated, and explainable spam email classification with an intuitive interactive demo and clear step-by-step model comparisons.
+**Milestone:** v2.0  
+**Status:** Active  
+**Date:** 2026-09-07  
 
-## v1 Requirements
+---
 
-Requirements for initial release. Each maps to roadmap phases.
+## Reproducibility & Data (REPRO)
 
-### Environment & Project Setup
+- [ ] **REPRO-01**: Developer can run a single `python scripts/bootstrap.py` command on a fresh clone and have all data downloaded, splits generated, and all 5 models trained and serialized with no manual steps.
+- [ ] **REPRO-02**: The bootstrap script integrates the real UCI SMS Spam Collection dataset (~5.5k messages) as the primary training corpus, replacing the 30-row synthetic dataset.
+- [ ] **REPRO-03**: After bootstrap, `pytest` passes all tests without requiring any additional manual setup.
 
-- [x] **ENV-01**: Clean modular project structure (`src/`, `data/`, `notebooks/`, `models/`, `app/`) with `requirements.txt`
-- [x] **ENV-02**: Dependency verification and NLTK resource downloader utility
+## Data Loading (DATA)
 
-### Dataset Ingestion & Preparation
+- [ ] **DATA-01**: `SMSDataLoader.download_uci_dataset()` falls back to the actual bundled sample SMS CSV file (not a non-existent path) when the network download fails, so callers never receive a `FileNotFoundError`.
 
-- [x] **DATA-01**: Email dataset loader (supporting Enron / SpamAssassin / Kaggle spam corpora)
-- [x] **DATA-02**: Standardized data schema (`text`, `label` where spam=1, ham=0) with stratified train/test split
-- [x] **DATA-03**: SMS Spam Collection (UCI) dataset ingestion module
+## Configuration (CFG)
 
-### Text Preprocessing & NLP Pipeline
+- [ ] **CFG-01**: All model hyperparameters (`LR_C`, `NB_ALPHA`, `SVM_C`, `RF_N_ESTIMATORS`, `XGB_*`, `LR_MAX_ITER`) defined in `config/config.py` are consumed by their respective model factory functions.
+- [ ] **CFG-02**: All NLP preprocessing flags (`MIN_WORD_LENGTH`, `REPLACE_URLS`, `REPLACE_EMAILS`, `REPLACE_CURRENCY`, `REPLACE_NUMBERS`) defined in `config/config.py` are consumed by `TextPreprocessor`.
+- [ ] **CFG-03**: All split ratios and path constants (`TRAIN_RATIO`, `TRAIN_DATA_PATH`, etc.) defined in `config/config.py` are used by `split_data` instead of hardcoded strings.
+- [ ] **CFG-04**: All `try/except ImportError` fallback blocks in `trainer.py`, `metrics.py`, `plots.py`, `explainability.py`, and `split_data.py` are replaced with direct `from config.config import ...` statements.
 
-- [x] **NLP-01**: Raw text cleaning (HTML tag removal, email headers/urls/punctuation handling, lowercasing)
-- [x] **NLP-02**: Tokenization, stopword removal, and lemmatization (using NLTK/WordNetLemmatizer)
-- [x] **NLP-03**: Reusable scikit-learn pipeline transformer for seamless training and inference
+## Feature Engineering (FEAT)
 
-### Feature Engineering
+- [ ] **FEAT-01**: `TFIDFExtractor.fit_transform()` applies the same small-dataset `min_df`/`max_df` guard logic as the separate `fit()` + `transform()` path so both routes produce identical vocabularies.
 
-- [x] **FEAT-01**: Word n-gram TF-IDF vectorization (unigrams and bigrams with configurable vocab limit)
-- [x] **FEAT-02**: Handcrafted feature extractors (link/URL count, uppercase character ratio, spam trigger keyword frequency)
-- [x] **FEAT-03**: Unified feature union / column transformer combining TF-IDF and dense handcrafted features
+## Streamlit Application (UI)
 
-### Model Training & Persistence
+- [ ] **UI-01**: The "Clear Text" button correctly resets the text area by storing text in `st.session_state` and using a `key=` parameter on `st.text_area`, so pressing the button visibly clears the input on rerun.
+- [ ] **UI-02**: When the `models/` directory is absent or empty, the app displays a friendly informational message ("Run `python scripts/bootstrap.py` first") instead of raising an unhandled exception that crashes the app.
+- [ ] **UI-03**: The Feature Attribution expander routes explainability to whichever linear model the user has selected (LR, SVM, or NB), not always Logistic Regression. For non-linear models (RF, XGBoost), a clear note explains that word-level attribution is only available for linear models.
+- [ ] **UI-04**: The sidebar icon is served from a local emoji or inline SVG rather than a remote URL (`img.icons8.com`) so the app works fully offline.
 
-- [x] **MODL-01**: Multinomial Naive Bayes classifier trained and tuned as baseline
-- [x] **MODL-02**: Logistic Regression classifier trained with regularized loss
-- [x] **MODL-03**: Linear Support Vector Machine (LinearSVC) classifier trained
-- [x] **MODL-04**: Ensemble tree-based classifier (Random Forest / XGBoost) trained
-- [x] **MODL-05**: Model serialization & persistence mechanism saving trained pipelines to disk
+## Code Quality & Portability (QUAL)
 
-### Evaluation & Explainability
+- [ ] **QUAL-01**: `requirements.txt` pins all package versions (e.g. `scikit-learn==1.9.0`) matching the current working install, with no bare ranges.
+- [ ] **QUAL-02**: The SSL bypass in `setup_env.py` is scoped to the NLTK download call only (using a context manager or a local monkey-patch), not applied globally for the entire process lifetime.
+- [ ] **QUAL-03**: `test_benchmark.json` stores only summary metrics per model (Accuracy, Precision, Recall, F1, ROC-AUC) — full `y_pred`/`y_prob` arrays are excluded to keep the file small on real datasets.
+- [ ] **QUAL-04**: Model metadata `models_saved` paths use forward slashes (via `Path.as_posix()`) so the JSON is portable across Windows and Linux.
+- [ ] **QUAL-05**: Unused typing imports removed from all model modules; `digit_ratio` computation documented; `EMAIL_HEADER_RE` regex uses `re.MULTILINE` so `^` matches mid-string line starts; `os.makedirs` in evaluator guards against empty `dirname`.
 
-- [x] **EVAL-01**: Multi-metric evaluation reporting Precision, Recall, F1-score, and Accuracy on held-out test split
-- [x] **EVAL-02**: Confusion matrices and ROC-AUC curve visualization generation
-- [x] **EVAL-03**: Top spam/ham feature contribution explainability module
+## Future Requirements (Deferred)
 
-### Interactive Streamlit Web Demo
-
-- [x] **UI-01**: Interactive single-message text tester for user-submitted emails/SMS
-- [x] **UI-02**: Real-time prediction display with spam/ham label, confidence score, and risk indicator
-- [x] **UI-03**: Highlighted explainability breakdown displaying detected spam keywords and feature metrics
-- [x] **UI-04**: Model benchmark comparison tab displaying comparative tables, confusion matrices, and ROC curves
-
-## v2 Requirements
-
-Deferred to future release. Tracked but not in current roadmap.
-
-- **EXT-01**: Live mailbox integration via IMAP to scan user inboxes
-- **EXT-02**: Fine-tuned Transformer/BERT-based classifier comparison
-- **EXT-03**: Automated daily retrain pipeline with drift monitoring
+- CI/CD pipeline (GitHub Actions) — run bootstrap + pytest on push — deferred to v3.0
+- EDA notebooks in `notebooks/` — deferred to v3.0
+- Email dataset support (Enron/SpamAssassin) — deferred to v3.0
 
 ## Out of Scope
 
-| Feature | Reason |
-|---------|--------|
-| Deep learning / heavy LLM fine-tuning | Classical ML and XGBoost are faster to train, lighter to deploy, and more transparent for college viva |
-| Real-time email server daemon (SMTP/IMAP hook) | Project goal is ML modeling, analysis, and web demo |
-| Enterprise authentication and multi-user database | Single-session local demo is sufficient for college presentation |
+- Heavy deep learning or LLM fine-tuning — classical ML and gradient boosting only.
+- Real-time mailbox daemon / IMAP integration.
+- Enterprise multi-user authentication.
+
+---
 
 ## Traceability
 
-Which phases cover which requirements. Updated during roadmap creation.
-
-| Requirement | Phase | Status |
-|-------------|-------|--------|
-| ENV-01 | Phase 1 | Complete |
-| ENV-02 | Phase 1 | Complete |
-| DATA-01 | Phase 2 | Complete |
-| DATA-02 | Phase 2 | Complete |
-| DATA-03 | Phase 2 | Complete |
-| NLP-01 | Phase 2 | Complete |
-| NLP-02 | Phase 2 | Complete |
-| NLP-03 | Phase 2 | Complete |
-| FEAT-01 | Phase 3 | Complete |
-| FEAT-02 | Phase 3 | Complete |
-| FEAT-03 | Phase 3 | Complete |
-| MODL-01 | Phase 4 | Complete |
-| MODL-02 | Phase 4 | Complete |
-| MODL-03 | Phase 4 | Complete |
-| MODL-04 | Phase 4 | Complete |
-| MODL-05 | Phase 4 | Complete |
-| EVAL-01 | Phase 5 | Complete |
-| EVAL-02 | Phase 5 | Complete |
-| EVAL-03 | Phase 5 | Complete |
-| UI-01 | Phase 6 | Complete |
-| UI-02 | Phase 6 | Complete |
-| UI-03 | Phase 6 | Complete |
-| UI-04 | Phase 6 | Complete |
-
-**Coverage:**
-
-- v1 requirements: 23 total
-- Mapped to phases: 23
-- Unmapped: 0 ✓
-
----
-*Requirements defined: 2026-09-06*
-*Last updated: 2026-09-06 after initial definition*
+| REQ-ID | Phase | Plan |
+|--------|-------|------|
+| REPRO-01, REPRO-02, REPRO-03, DATA-01 | Phase 7 | TBD |
+| CFG-01, CFG-02, CFG-03, CFG-04, FEAT-01 | Phase 8 | TBD |
+| UI-01, UI-02, UI-03, UI-04 | Phase 9 | TBD |
+| QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05 | Phase 10 | TBD |
