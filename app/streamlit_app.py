@@ -258,7 +258,7 @@ def main() -> None:
 
         if analyze_clicked and not user_input.strip():
             st.warning("⚠️ Please enter or paste some text before clicking Analyze.")
-        elif (analyze_clicked or default_text) and user_input.strip():
+        elif user_input.strip():
             # Run inference using the active pipeline
             prob_spam = 0.0
             prediction = "HAM"
