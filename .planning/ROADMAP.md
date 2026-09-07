@@ -12,7 +12,9 @@ This roadmap delivers a complete college machine learning project following a st
 - [x] **Phase 4: Model Training Harness & Persistence** - Step-by-step training of MNB, Logistic Regression, Linear SVM, and XGBoost/RF with serialization. (completed 2026-09-06)
 - [x] **Phase 5: Evaluation Suite & Explainability Engine** - Comprehensive multi-metric benchmark, ROC/confusion plots, and keyword explainability. (completed 2026-09-06)
 - [x] **Phase 6: Interactive Streamlit Web Application** - Interactive UI for single-message spam testing, confidence score, explainability, and comparative metrics dashboard. (completed 2026-09-06)
-
+- [x] **Phase 7: Bootstrap & Real Data Integration** - Bootstrap script, real UCI SMS dataset (~5.5k), and SMSDataLoader fallback fix. (v2.0) (completed 2026-09-07)
+- [ ] **Phase 8: Configuration Wiring & Code Quality** - Wire config constants, remove try/except ImportError fallbacks, fix TFIDFExtractor, strip benchmark arrays, fix metadata paths, code quality. (v2.0)
+- [ ] **Phase 9: App Robustness & UX Fixes** - Fix "Clear Text" button, graceful startup error, model-routed explainability, pinned requirements.txt. (v2.0)
 
 ## Phase Details
 
@@ -134,10 +136,52 @@ Plans:
 
 - [x] 06-01: Streamlit single-message classification interface with confidence gauge, explainability, and benchmark dashboard.
 
+### Phase 7: Bootstrap & Real Data Integration
+
+**Goal**: Add a `scripts/bootstrap.py` that downloads the real UCI SMS dataset, splits data, and trains all 5 models end-to-end so fresh clones work immediately; fix the `SMSDataLoader` fallback path; regenerate benchmark JSON and figures with honest numbers.
+**Depends on**: Phase 6 (v1.0 complete)
+**Requirements**: FIX-01, FIX-02, FIX-03
+**Success Criteria** (what must be TRUE):
+
+  1. Running `python scripts/bootstrap.py` on a fresh clone downloads the UCI SMS dataset, produces stratified splits, trains all 5 models, and saves them to `models/` without manual intervention.
+  2. `test_benchmark.json` and `reports/figures/` are regenerated from the real ~5.5k-message UCI dataset with honest Precision/Recall/F1/AUC numbers.
+  3. `SMSDataLoader.download_uci_dataset()` fallback returns the correct bundled sample file path (not a non-existent path).
+
+**Plans**: TBD
+
+### Phase 8: Configuration Wiring & Code Quality
+
+**Goal**: Wire all `config/config.py` constants through every consumer; remove fragile try/except ImportError config fallbacks; fix `TFIDFExtractor.fit_transform` small-dataset guards; strip raw arrays from benchmark JSON; fix model metadata paths; and clean up miscellaneous code quality issues.
+**Depends on**: Phase 7
+**Requirements**: FIX-04, FIX-05, FIX-06, FIX-11, FIX-12, FIX-13, FIX-14
+**Success Criteria** (what must be TRUE):
+
+  1. All hyperparameters in `config/config.py` (e.g. `TFIDF_MAX_FEATURES`, `TFIDF_NGRAM_RANGE`, `USE_STEMMING`, `MIN_DF`, `MAX_DF`) are read by model factories, `TextPreprocessor`, and `TFIDFExtractor` — no hardcoded duplicates exist outside `config/config.py`.
+  2. Direct imports replace every `try/except ImportError` config fallback block in trainer, metrics, plots, explainability, and split_data modules.
+  3. `TFIDFExtractor.fit_transform` applies identical `min_df`/`max_df` small-dataset guards as the `fit` + `transform` path.
+  4. `test_benchmark.json` contains only summary metrics (no `y_pred`/`y_prob` arrays), model metadata uses forward-slash paths on all platforms, and SSL workaround in `setup_env.py` is scoped to NLTK download only.
+  5. All identified code quality issues resolved: unused typing imports removed, `digit_ratio` magic constant named, sidebar emoji used instead of remote icon, `EMAIL_HEADER_RE` anchor fixed, `os.makedirs` edge case handled.
+
+**Plans**: TBD
+
+### Phase 9: App Robustness & UX Fixes
+
+**Goal**: Fix Streamlit "Clear Text" button using `st.session_state`; add graceful startup error handling when models are missing; route explainability to the user-selected model; pin all package versions in `requirements.txt`.
+**Depends on**: Phase 8
+**Requirements**: FIX-07, FIX-08, FIX-09, FIX-10
+**Success Criteria** (what must be TRUE):
+
+  1. The "Clear Text" button in Streamlit clears the text area without a page reload error, implemented via `key=` on `st.text_area` and `st.session_state` manipulation.
+  2. On fresh launch without `models/`, the app displays a human-readable "Run bootstrap first" message instead of crashing with a `FileNotFoundError` or `KeyError`.
+  3. The explainability panel outputs token contributions from the model the user selected in the sidebar (NB, LR, or SVM), not always Logistic Regression.
+  4. `requirements.txt` lists pinned versions for every direct dependency matching the current working install.
+
+**Plans**: TBD
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
+v1.0 Phases 1–6 (archived) → v2.0 Phases 7 → 8 → 9
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -147,3 +191,6 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4 -> 5 -> 6
 | 4. Model Training Harness & Persistence | 2/2 | Complete   | 2026-09-06 |
 | 5. Evaluation Suite & Explainability Engine | 2/2 | Complete   | 2026-09-06 |
 | 6. Interactive Streamlit Web Application | 1/1 | Complete   | 2026-09-06 |
+| 7. Bootstrap & Real Data Integration | 2/2 | Complete    | 2026-09-07 |
+| 8. Configuration Wiring & Code Quality | 0/? | Pending | — |
+| 9. App Robustness & UX Fixes | 0/? | Pending | — |

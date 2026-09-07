@@ -24,25 +24,19 @@ from sklearn.metrics import auc, roc_curve
 
 from src.evaluation.metrics import ModelEvaluator
 
-try:
-    from config.config import (
-        CONFUSION_MATRICES_PNG,
-        METRICS_COMPARISON_PNG,
-        ROC_CURVES_PNG,
-        TEST_BENCHMARK_JSON,
-        TEST_DATA_PATH,
-    )
-    DEFAULT_BENCHMARK_JSON = str(TEST_BENCHMARK_JSON)
-    DEFAULT_CM_PNG = str(CONFUSION_MATRICES_PNG)
-    DEFAULT_ROC_PNG = str(ROC_CURVES_PNG)
-    DEFAULT_METRICS_PNG = str(METRICS_COMPARISON_PNG)
-    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
-except ImportError:
-    DEFAULT_BENCHMARK_JSON = "reports/test_benchmark.json"
-    DEFAULT_CM_PNG = "reports/figures/confusion_matrices.png"
-    DEFAULT_ROC_PNG = "reports/figures/roc_curves.png"
-    DEFAULT_METRICS_PNG = "reports/figures/metrics_comparison.png"
-    DEFAULT_TEST_PATH = "data/processed/test.csv"
+from config.config import (
+    CONFUSION_MATRICES_PNG,
+    METRICS_COMPARISON_PNG,
+    ROC_CURVES_PNG,
+    TEST_BENCHMARK_JSON,
+    TEST_DATA_PATH,
+)
+
+DEFAULT_BENCHMARK_JSON = str(TEST_BENCHMARK_JSON)
+DEFAULT_CM_PNG = str(CONFUSION_MATRICES_PNG)
+DEFAULT_ROC_PNG = str(ROC_CURVES_PNG)
+DEFAULT_METRICS_PNG = str(METRICS_COMPARISON_PNG)
+DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -109,7 +103,9 @@ def plot_confusion_matrices(
 
     plt.suptitle("Spam Classifier Confusion Matrices (Held-out Test Split)", fontsize=16, weight="bold", y=1.02)
     plt.tight_layout()
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
 
@@ -156,7 +152,9 @@ def plot_roc_curves(
     plt.legend(loc="lower right", fontsize=11, frameon=True)
     plt.grid(True, linestyle="--", alpha=0.6)
 
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
 
@@ -217,7 +215,9 @@ def plot_metrics_comparison_bar(
             )
 
     plt.tight_layout()
-    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    out_dir = os.path.dirname(output_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     plt.savefig(output_path, dpi=300, bbox_inches="tight")
     plt.close()
 

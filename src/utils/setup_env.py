@@ -95,16 +95,6 @@ def check_dependencies() -> Tuple[bool, List[str]]:
     return True, []
 
 
-def configure_ssl_for_nltk() -> None:
-    """Handle Windows SSL certificate chain fallbacks for NLTK downloader."""
-    try:
-        _create_unverified_https_context = ssl._create_unverified_context
-    except AttributeError:
-        pass
-    else:
-        ssl._create_default_https_context = _create_unverified_https_context
-
-
 def download_nltk_resources() -> bool:
     """
     Download and verify required NLTK corpora and tokenizers.
@@ -118,22 +108,37 @@ def download_nltk_resources() -> bool:
         logger.error("Cannot download NLTK resources: NLTK is not installed.")
         return False
 
-    configure_ssl_for_nltk()
+    # Scope SSL context bypass strictly to NLTK download
+    original_ssl_context = None
+    if hasattr(ssl, "_create_unverified_context"):
+        original_ssl_context = ssl._create_default_https_context
+        ssl._create_default_https_context = ssl._create_unverified_context
+
     logger.info("Checking and downloading required NLTK resources...")
     all_success = True
 
-    for resource in NLTK_REQUIREMENTS:
-        try:
-            logger.info(f"  Downloading/Verifying NLTK resource: '{resource}'...")
-            downloaded = nltk.download(resource, quiet=True)
-            if downloaded:
-                logger.info(f"  [OK] Resource '{resource}' is ready.")
-            else:
-                # nltk.download returns True on new download, but may return False/None if already up to date
-                logger.info(f"  [OK] Resource '{resource}' verified.")
-        except Exception as exc:
-            logger.error(f"  [FAIL] Error downloading '{resource}': {exc}")
-            all_success = False
+    try:
+        for resource in NLTK_REQUIREMENTS:
+            try:
+                # 'wordnet' uses 'corpora/wordnet' internally
+                nltk.data.find(f"corpora/{resource}")
+                logger.info(f"  [OK] NLTK resource '{resource}' is already downloaded.")
+            except LookupError:
+                # Lookup failed, try for tokenizers path
+                try:
+                    nltk.data.find(f"tokenizers/{resource}")
+                    logger.info(f"  [OK] NLTK resource '{resource}' is already downloaded.")
+                except LookupError:
+                    logger.info(f"  Downloading NLTK resource '{resource}'...")
+                    success = nltk.download(resource, quiet=True)
+                    if success:
+                        logger.info(f"  [OK] Successfully downloaded '{resource}'.")
+                    else:
+                        logger.error(f"  [FAIL] Failed to download '{resource}'.")
+                        all_success = False
+    finally:
+        if original_ssl_context is not None:
+            ssl._create_default_https_context = original_ssl_context
 
     return all_success
 

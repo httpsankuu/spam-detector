@@ -24,15 +24,10 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
-try:
-    from config.config import MODELS_DIR, TEST_BENCHMARK_JSON, TEST_DATA_PATH
-    DEFAULT_MODELS_DIR = str(MODELS_DIR)
-    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
-    DEFAULT_OUTPUT_JSON = str(TEST_BENCHMARK_JSON)
-except ImportError:
-    DEFAULT_MODELS_DIR = "models"
-    DEFAULT_TEST_PATH = "data/processed/test.csv"
-    DEFAULT_OUTPUT_JSON = "reports/test_benchmark.json"
+from config.config import MODELS_DIR, TEST_BENCHMARK_JSON, TEST_DATA_PATH
+DEFAULT_MODELS_DIR = str(MODELS_DIR)
+DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
+DEFAULT_OUTPUT_JSON = str(TEST_BENCHMARK_JSON)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -130,8 +125,6 @@ class ModelEvaluator:
                 "fn": int(fn),
                 "tp": int(tp),
             },
-            "y_pred": preds.tolist(),
-            "y_prob": probs.tolist() if probs is not None else None,
         }
 
     def evaluate_all(
@@ -188,7 +181,9 @@ class ModelEvaluator:
         print("=" * 80)
 
         # Save to JSON
-        os.makedirs(os.path.dirname(output_json), exist_ok=True)
+        out_dir = os.path.dirname(output_json)
+        if out_dir:
+            os.makedirs(out_dir, exist_ok=True)
         with open(output_json, "w", encoding="utf-8") as f:
             json.dump({
                 "test_samples": len(test_df),

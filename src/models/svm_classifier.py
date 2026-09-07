@@ -27,13 +27,15 @@ logging.basicConfig(
 logger = logging.getLogger("svm_classifier")
 
 
+from config.config import SVM_C, SVM_MAX_ITER, TFIDF_MAX_FEATURES, RANDOM_SEED
+
 class SVMClassifier:
     """
-    Linear Support Vector Machine classifier wrapper with probability calibration.
+    Linear Support Vector Machine classifier optimized for text data.
 
     Parameters:
-        C: Regularization parameter
-        calibrate_probabilities: If True, wraps LinearSVC in CalibratedClassifierCV
+        C: Regularization parameter. The strength of the regularization is inversely proportional to C.
+        calibrate_probabilities: Whether to wrap in CalibratedClassifierCV to support predict_proba().
         class_weight: Weighting strategy ('balanced' or None)
         max_iter: Maximum optimization iterations
         random_state: Random seed for reproducibility
@@ -41,11 +43,11 @@ class SVMClassifier:
 
     def __init__(
         self,
-        C: float = 1.0,
+        C: float = SVM_C,
         calibrate_probabilities: bool = True,
         class_weight: Optional[Union[str, Dict[int, float]]] = "balanced",
-        max_iter: int = 2000,
-        random_state: int = 42,
+        max_iter: int = SVM_MAX_ITER,
+        random_state: int = RANDOM_SEED,
     ) -> None:
         self.C = C
         self.calibrate_probabilities = calibrate_probabilities
@@ -104,9 +106,9 @@ class SVMClassifier:
 
 
 def build_svm_pipeline(
-    C: float = 1.0,
+    C: float = SVM_C,
     calibrate_probabilities: bool = True,
-    max_features: int = 5000,
+    max_features: int = TFIDF_MAX_FEATURES,
 ) -> Pipeline:
     """
     Construct a complete end-to-end scikit-learn Pipeline bundling

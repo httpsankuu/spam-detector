@@ -27,9 +27,12 @@ logging.basicConfig(
 logger = logging.getLogger("tree_classifier")
 
 
+from config.config import RF_N_ESTIMATORS, TFIDF_MAX_FEATURES, RANDOM_SEED
+
 class EnsembleClassifier:
     """
-    Unified Tree Ensemble wrapper supporting Random Forest and XGBoost.
+    Wrapper for tree-based ensemble models (Random Forest and XGBoost)
+    with consistent scikit-learn API endpoints.
 
     Parameters:
         model_type: 'random_forest' or 'xgboost'
@@ -41,9 +44,9 @@ class EnsembleClassifier:
     def __init__(
         self,
         model_type: str = "random_forest",
-        n_estimators: int = 100,
+        n_estimators: int = RF_N_ESTIMATORS,
         max_depth: Optional[int] = 12,
-        random_state: int = 42,
+        random_state: int = RANDOM_SEED,
     ) -> None:
         self.model_type = model_type.lower()
         self.n_estimators = n_estimators
@@ -106,9 +109,9 @@ class EnsembleClassifier:
 
 def build_ensemble_pipeline(
     model_type: str = "random_forest",
-    n_estimators: int = 100,
+    n_estimators: int = RF_N_ESTIMATORS,
     max_depth: Optional[int] = 12,
-    max_features: int = 5000,
+    max_features: int = TFIDF_MAX_FEATURES,
 ) -> Pipeline:
     """
     Construct an end-to-end Pipeline combining UnifiedFeaturePipeline with

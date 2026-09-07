@@ -146,6 +146,9 @@ class HandcraftedFeatureExtractor(BaseEstimator, TransformerMixin):
         # Also check for 'number' placeholder token
         number_tokens = len(re.findall(r"\bnumber\b", text, flags=re.IGNORECASE))
         digit_count = digits + (number_tokens * 3)  # surrogate weight for number tokens
+        
+        # digit_ratio computes the fraction of numeric characters (or surrogate placeholders)
+        # relative to the total string length, which is often elevated in spam containing codes or prices.
         digit_ratio = (digit_count / char_count) if char_count > 0 else 0.0
 
         # Spam trigger keyword occurrences
