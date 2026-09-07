@@ -34,6 +34,13 @@ class SMSDataLoader:
 
     STANDARDIZED_COLUMNS = ["text", "label"]
     UCI_MIRROR_URL = "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"
+    UCI_BACKUP_URL: str = (
+        "https://raw.githubusercontent.com/justmarkham/pycon-2016-tutorial"
+        "/master/data/sms.tsv"
+    )
+    BUNDLED_SAMPLE_PATH: Path = (
+        Path(__file__).resolve().parent.parent.parent / "data" / "raw" / "sample_sms.csv"
+    )
 
     def load_uci_file(
         self,
