@@ -13,8 +13,8 @@ This roadmap delivers a complete college machine learning project following a st
 - [x] **Phase 5: Evaluation Suite & Explainability Engine** - Comprehensive multi-metric benchmark, ROC/confusion plots, and keyword explainability. (completed 2026-09-06)
 - [x] **Phase 6: Interactive Streamlit Web Application** - Interactive UI for single-message spam testing, confidence score, explainability, and comparative metrics dashboard. (completed 2026-09-06)
 - [x] **Phase 7: Bootstrap & Real Data Integration** - Bootstrap script, real UCI SMS dataset (~5.5k), and SMSDataLoader fallback fix. (v2.0) (completed 2026-09-07)
-- [ ] **Phase 8: Configuration Wiring & Code Quality** - Wire config constants, remove try/except ImportError fallbacks, fix TFIDFExtractor, strip benchmark arrays, fix metadata paths, code quality. (v2.0)
-- [ ] **Phase 9: App Robustness & UX Fixes** - Fix "Clear Text" button, graceful startup error, model-routed explainability, pinned requirements.txt. (v2.0)
+- [x] **Phase 8: Configuration Wiring & Code Quality** - Wire config constants, remove try/except ImportError fallbacks, fix TFIDFExtractor, strip benchmark arrays, fix metadata paths, code quality. (v2.0)
+- [x] **Phase 9: App Robustness & UX Fixes** - Fix "Clear Text" button, graceful startup error, model-routed explainability, pinned requirements.txt. (v2.0)
 
 ## Phase Details
 
@@ -192,5 +192,5 @@ v1.0 Phases 1–6 (archived) → v2.0 Phases 7 → 8 → 9
 | 5. Evaluation Suite & Explainability Engine | 2/2 | Complete   | 2026-09-06 |
 | 6. Interactive Streamlit Web Application | 1/1 | Complete   | 2026-09-06 |
 | 7. Bootstrap & Real Data Integration | 2/2 | Complete    | 2026-09-07 |
-| 8. Configuration Wiring & Code Quality | 0/? | Pending | — |
+| 8. Configuration Wiring & Code Quality | 3/3 | Complete | 2026-09-07 |
 | 9. App Robustness & UX Fixes | 1/1 | Complete | 2026-09-07 |
