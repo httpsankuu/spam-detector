@@ -43,12 +43,33 @@ class SpamExplainer:
 
         self.pipeline = joblib.load(self.model_path)
         self.feature_pipeline = self.pipeline.named_steps["features"]
-        self.classifier = self.pipeline.named_steps["lr"]
+        self.classifier = self.pipeline.steps[-1][1]
 
-        # Cache feature names and coefficients
+        # Cache feature names
         self.feature_names = self.feature_pipeline.get_feature_names_out()
-        self.coefficients = self.classifier.coef_.flatten()
-        self.intercept = float(self.classifier.intercept_[0])
+        
+        if hasattr(self.classifier, "coef_"):
+            self.coefficients = self.classifier.coef_.flatten()
+            self.intercept = float(self.classifier.intercept_[0]) if hasattr(self.classifier, "intercept_") else 0.0
+            self.is_linear = True
+        elif hasattr(self.classifier, "feature_log_prob_"):
+            self.coefficients = (self.classifier.feature_log_prob_[1] - self.classifier.feature_log_prob_[0]).flatten()
+            self.intercept = 0.0
+            self.is_linear = True
+        elif hasattr(self.classifier, "calibrated_classifiers_"):
+            base_estimator = self.classifier.calibrated_classifiers_[0].estimator
+            if hasattr(base_estimator, "coef_"):
+                self.coefficients = base_estimator.coef_.flatten()
+                self.intercept = float(base_estimator.intercept_[0]) if hasattr(base_estimator, "intercept_") else 0.0
+                self.is_linear = True
+            else:
+                self.coefficients = np.zeros(len(self.feature_names))
+                self.intercept = 0.0
+                self.is_linear = False
+        else:
+            self.coefficients = np.zeros(len(self.feature_names))
+            self.intercept = 0.0
+            self.is_linear = False
 
     def get_global_feature_importance(self, top_n: int = 15) -> Dict[str, List[Dict[str, Any]]]:
         """
@@ -151,6 +172,7 @@ class SpamExplainer:
             "top_spam_signals": spam_signals,
             "top_ham_signals": ham_signals,
             "handcrafted_metrics": metrics_dict,
+            "is_linear": self.is_linear,
         }
 
 

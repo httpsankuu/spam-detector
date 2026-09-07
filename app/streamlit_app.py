@@ -142,6 +142,8 @@ def load_all_models() -> Dict[str, Any]:
     """Cache loaded scikit-learn models from disk."""
     models: Dict[str, Any] = {}
     models_dir = "models"
+    if not os.path.exists(models_dir):
+        return models
     for filename in os.listdir(models_dir):
         if filename.endswith("_pipeline.joblib"):
             key = filename.replace("_pipeline.joblib", "")
@@ -154,9 +156,9 @@ def load_all_models() -> Dict[str, Any]:
 
 
 @st.cache_resource
-def get_explainer() -> SpamExplainer:
+def get_explainer(model_path: str) -> SpamExplainer:
     """Initialize cached explainability engine."""
-    return SpamExplainer(model_path="models/logistic_regression_pipeline.joblib")
+    return SpamExplainer(model_path=model_path)
 
 
 def render_highlighted_text(text: str, triggers: List[str]) -> str:
@@ -175,11 +177,13 @@ def render_highlighted_text(text: str, triggers: List[str]) -> str:
 # ==============================================================================
 def main() -> None:
     models = load_all_models()
-    explainer = get_explainer()
+    if not models:
+        st.info("Run `python scripts/bootstrap.py` first to train models and generate data.")
+        st.stop()
 
     # Sidebar Controls
     with st.sidebar:
-        st.image("https://img.icons8.com/color/96/000000/shield.png", width=70)
+        st.markdown("<h1 style='text-align: center;'>🛡️</h1>", unsafe_allow_html=True)
         st.markdown("### Model Configuration")
 
         selected_model_label = st.selectbox(
@@ -190,10 +194,18 @@ def main() -> None:
         )
         selected_model_key = MODEL_DISPLAY_NAMES[selected_model_label]
         active_pipeline = models.get(selected_model_key)
+        
+        # Initialize explainer for the selected model
+        model_path = os.path.join("models", f"{selected_model_key}_pipeline.joblib")
+        explainer = get_explainer(model_path) if os.path.exists(model_path) else None
 
         st.divider()
         st.markdown("### Quick Presets")
         selected_preset = st.selectbox("Load Example Message:", options=list(SAMPLE_PRESETS.keys()))
+        
+        if "last_preset" not in st.session_state or st.session_state.last_preset != selected_preset:
+            st.session_state.last_preset = selected_preset
+            st.session_state.user_input = SAMPLE_PRESETS.get(selected_preset, "")
 
         st.divider()
         st.markdown("### Pipeline Architecture")
@@ -226,10 +238,12 @@ def main() -> None:
     with tab_live:
         st.subheader("Analyze Email or SMS Text")
 
-        default_text = SAMPLE_PRESETS.get(selected_preset, "")
+        if "user_input" not in st.session_state:
+            st.session_state.user_input = SAMPLE_PRESETS.get(selected_preset, "")
+
         user_input = st.text_area(
             "Paste your email / message text below:",
-            value=default_text,
+            key="user_input",
             height=160,
             placeholder="e.g. Subject: You won $10,000 cash! Claim your prize now...",
         )
@@ -239,7 +253,7 @@ def main() -> None:
             analyze_clicked = st.button("🚀 Analyze Message", type="primary", use_container_width=True)
         with col_btn2:
             if st.button("Clear Text", use_container_width=False):
-                user_input = ""
+                st.session_state.user_input = ""
                 st.rerun()
 
         if analyze_clicked and not user_input.strip():
@@ -328,29 +342,32 @@ def main() -> None:
             # --- Feature Contribution Breakdown ---
             st.markdown("---")
             with st.expander("🔬 Detailed Model Explainability: Feature Attribution ($x_i \\cdot w_i$)", expanded=True):
-                st.caption(
-                    "Transparent feature contributions based on Logistic Regression weights. "
-                    "Positive values drive the spam verdict; negative values push towards ham."
-                )
+                if not exp_data.get("is_linear", True):
+                    st.info("Word-level attribution is only available for linear models (like Logistic Regression or Naive Bayes). The selected non-linear model does not provide direct $x_i \\cdot w_i$ decomposition.")
+                else:
+                    st.caption(
+                        "Transparent feature contributions based on model weights. "
+                        "Positive values drive the spam verdict; negative values push towards ham."
+                    )
 
-                col_sig1, col_sig2 = st.columns(2)
-                with col_sig1:
-                    st.markdown("#### 🚩 Top Spam-Indicative Signals (+)")
-                    spam_signals = exp_data.get("top_spam_signals", [])
-                    if spam_signals:
-                        df_spam_sig = pd.DataFrame(spam_signals)[["feature", "contribution"]]
-                        st.dataframe(df_spam_sig, use_container_width=True, hide_index=True)
-                    else:
-                        st.write("None active.")
+                    col_sig1, col_sig2 = st.columns(2)
+                    with col_sig1:
+                        st.markdown("#### 🚩 Top Spam-Indicative Signals (+)")
+                        spam_signals = exp_data.get("top_spam_signals", [])
+                        if spam_signals:
+                            df_spam_sig = pd.DataFrame(spam_signals)[["feature", "contribution"]]
+                            st.dataframe(df_spam_sig, use_container_width=True, hide_index=True)
+                        else:
+                            st.write("None active.")
 
-                with col_sig2:
-                    st.markdown("#### 🛡️ Top Ham-Indicative Signals (-)")
-                    ham_signals = exp_data.get("top_ham_signals", [])
-                    if ham_signals:
-                        df_ham_sig = pd.DataFrame(ham_signals)[["feature", "contribution"]]
-                        st.dataframe(df_ham_sig, use_container_width=True, hide_index=True)
-                    else:
-                        st.write("None active.")
+                    with col_sig2:
+                        st.markdown("#### 🛡️ Top Ham-Indicative Signals (-)")
+                        ham_signals = exp_data.get("top_ham_signals", [])
+                        if ham_signals:
+                            df_ham_sig = pd.DataFrame(ham_signals)[["feature", "contribution"]]
+                            st.dataframe(df_ham_sig, use_container_width=True, hide_index=True)
+                        else:
+                            st.write("None active.")
 
     # --------------------------------------------------------------------------
     # Tab 2: Model Comparison & Benchmarks

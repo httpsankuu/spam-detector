@@ -1,196 +1,30 @@
 # Roadmap: AI-Based Spam Email Detection using Machine Learning
 
-## Overview
+## Milestones
 
-This roadmap delivers a complete college machine learning project following a structured, horizontal layers approach. We start by building a rock-solid environment and automated dataset ingestion and NLP preprocessing pipeline. Next, we engineer TF-IDF and handcrafted statistical features, train and persist multiple ML models (Naive Bayes baseline, Logistic Regression, Linear SVM, and Random Forest / XGBoost) with modular explanations, build a rigorous evaluation and explainability suite, and culminate in an interactive Streamlit web application for real-time testing and presentation.
+- ✅ **v1.0 MVP** — Phases 1-6 (shipped 2026-09-06)
+- ✅ **v2.0 Hardened and Production-Ready** — Phases 7-9 (shipped 2026-09-07)
 
 ## Phases
 
-- [x] **Phase 1: Environment & Project Foundation** - Project directory structure, virtualenv requirements, and dependency verification. (completed 2026-09-06)
-- [x] **Phase 2: Data Ingestion & NLP Preprocessing Pipeline** - Dataset loaders (Email & SMS), stratified splits, and text cleaning/lemmatization transformer. (completed 2026-09-06)
-- [x] **Phase 3: Feature Engineering & Feature Union** - Word n-gram TF-IDF vectorizer and handcrafted indicator feature union. (completed 2026-09-06)
-- [x] **Phase 4: Model Training Harness & Persistence** - Step-by-step training of MNB, Logistic Regression, Linear SVM, and XGBoost/RF with serialization. (completed 2026-09-06)
-- [x] **Phase 5: Evaluation Suite & Explainability Engine** - Comprehensive multi-metric benchmark, ROC/confusion plots, and keyword explainability. (completed 2026-09-06)
-- [x] **Phase 6: Interactive Streamlit Web Application** - Interactive UI for single-message spam testing, confidence score, explainability, and comparative metrics dashboard. (completed 2026-09-06)
-- [x] **Phase 7: Bootstrap & Real Data Integration** - Bootstrap script, real UCI SMS dataset (~5.5k), and SMSDataLoader fallback fix. (v2.0) (completed 2026-09-07)
-- [ ] **Phase 8: Configuration Wiring & Code Quality** - Wire config constants, remove try/except ImportError fallbacks, fix TFIDFExtractor, strip benchmark arrays, fix metadata paths, code quality. (v2.0)
-- [ ] **Phase 9: App Robustness & UX Fixes** - Fix "Clear Text" button, graceful startup error, model-routed explainability, pinned requirements.txt. (v2.0)
+<details>
+<summary>✅ v1.0 MVP (Phases 1-6) — SHIPPED 2026-09-06</summary>
 
-## Phase Details
+- [x] Phase 1: Environment & Project Foundation
+- [x] Phase 2: Data Ingestion & NLP Preprocessing Pipeline
+- [x] Phase 3: Feature Engineering & Feature Union
+- [x] Phase 4: Model Training Harness & Persistence
+- [x] Phase 5: Evaluation Suite & Explainability Engine
+- [x] Phase 6: Interactive Streamlit Web Application
 
-### Phase 1: Environment & Project Foundation
+</details>
 
-**Goal**: Establish a modular project directory tree, configure dependencies, and create an automated environment health-check utility.
-**Depends on**: Nothing (first phase)
-**Requirements**: ENV-01, ENV-02
-**Success Criteria** (what must be TRUE):
+<details>
+<summary>✅ v2.0 Hardened and Production-Ready (Phases 7-9) — SHIPPED 2026-09-07</summary>
 
-  1. Directory structure (`src/`, `data/`, `notebooks/`, `models/`, `app/`) exists and is cleanly organized.
-  2. Python dependencies install smoothly via `requirements.txt` without package conflicts.
-  3. Environment verification script validates packages and downloads required NLTK resources automatically.
+- [x] Phase 7: Bootstrap & Real Data Integration (2 plans)
+- [x] Phase 8: Configuration Wiring & Code Quality (3 plans)
+- [x] Phase 9: App Robustness & UX Fixes (1 plan)
 
-**Plans**: TBD
+</details>
 
-Plans:
-
-- [x] 01-01-PLAN.md
-- [x] 01-01: Project scaffolding, `requirements.txt`, and environment verification script.
-
-### Phase 2: Data Ingestion & NLP Preprocessing Pipeline
-
-**Goal**: Ingest email and SMS datasets, standardize data schema with stratified splits, and build an end-to-end text preprocessing pipeline.
-**Depends on**: Phase 1
-**Requirements**: DATA-01, DATA-02, DATA-03, NLP-01, NLP-02, NLP-03
-**Success Criteria** (what must be TRUE):
-
-  1. Data loaders successfully load email and SMS datasets into a normalized pandas DataFrame with standard columns (`text`, `label`).
-  2. Dataset split produces stratified train/validation/test partitions preserving spam-to-ham class distribution.
-  3. Text cleaner strips HTML, headers, URLs, and punctuation, producing normalized, lemmatized tokens via a scikit-learn compatible transformer.
-
-**Plans**: TBD
-
-Plans:
-
-- [x] 02-01-PLAN.md
-- [x] 02-02-PLAN.md
-
-**Wave 1**
-
-- [x] 02-01: Dataset loaders for email and SMS datasets with stratified splitting.
-
-**Wave 2** *(blocked on Wave 1 completion)*
-
-- [x] 02-02: NLP cleaning, tokenization, stopword removal, and lemmatization pipeline transformer.
-
-### Phase 3: Feature Engineering & Feature Union
-
-**Goal**: Implement TF-IDF n-gram vectorization alongside handcrafted spam features (links, caps ratio, trigger keywords) in a unified pipeline.
-**Depends on**: Phase 2
-**Requirements**: FEAT-01, FEAT-02, FEAT-03
-**Success Criteria** (what must be TRUE):
-
-  1. TF-IDF vectorizer extracts unigrams and bigrams with configurable sublinear term frequency and vocabulary caps.
-  2. Handcrafted feature extractor accurately calculates link counts, uppercase character ratios, and trigger keyword frequencies.
-  3. Unified FeatureUnion/ColumnTransformer merges text and numeric features into a unified matrix ready for model estimators.
-
-**Plans**: TBD
-
-Plans:
-
-- [x] 03-01: TF-IDF n-gram vectorizer configuration and handcrafted feature extractor.
-- [x] 03-02: Unified FeatureUnion pipeline integration and transformed matrix caching.
-
-### Phase 4: Model Training Harness & Persistence
-
-**Goal**: Train, tune, and serialize multiple ML classifiers (Multinomial Naive Bayes, Logistic Regression, Linear SVM, and Random Forest / XGBoost) with modular step-by-step training scripts.
-**Depends on**: Phase 3
-**Requirements**: MODL-01, MODL-02, MODL-03, MODL-04, MODL-05
-**Success Criteria** (what must be TRUE):
-
-  1. Multinomial Naive Bayes trains successfully as a fast, calibrated baseline classifier.
-  2. Logistic Regression trains with regularized weights and outputs well-calibrated class probabilities.
-  3. Linear Support Vector Machine (LinearSVC) trains with high margin separation on high-dimensional text features.
-  4. Tree ensemble (Random Forest / XGBoost) trains successfully and captures non-linear feature interactions.
-  5. All trained models and feature extractors are serialized cleanly to `models/` with metadata.
-
-**Plans**: TBD
-
-Plans:
-
-- [x] 04-01: Baseline Multinomial Naive Bayes and Logistic Regression training module.
-- [x] 04-02: Linear SVM and Random Forest / XGBoost training module and model persistence pipeline.
-
-### Phase 5: Evaluation Suite & Explainability Engine
-
-**Goal**: Benchmark all models across Precision, Recall, F1-Score, and ROC-AUC, generate visualization artifacts, and extract top predictive feature weights for explainability.
-**Depends on**: Phase 4
-**Requirements**: EVAL-01, EVAL-02, EVAL-03
-**Success Criteria** (what must be TRUE):
-
-  1. Evaluation script produces comprehensive metric comparison table on held-out test data.
-  2. Confusion matrix and ROC-AUC curves are computed, rendered, and saved as publication-ready figures.
-  3. Explainability engine extracts top spam-indicative and ham-indicative tokens for any trained linear model and specific test email.
-
-**Plans**: TBD
-
-Plans:
-
-- [x] 05-01: Multi-metric benchmarking harness, confusion matrix, and ROC-AUC plot generator.
-- [x] 05-02: Model explainability and feature contribution extraction module.
-
-### Phase 6: Interactive Streamlit Web Application
-
-**Goal**: Build and launch an intuitive Streamlit web app providing live spam inference, confidence gauges, keyword explainability, and comparative performance dashboard.
-**Depends on**: Phase 5
-**Requirements**: UI-01, UI-02, UI-03, UI-04
-**Success Criteria** (what must be TRUE):
-
-  1. User can paste any email or SMS text into the UI and receive an immediate spam vs. ham verdict.
-  2. Interface displays prediction badge, probability score bar, and risk categorization.
-  3. UI highlights detected spam trigger words and structural signals from the input text.
-  4. Model Comparison dashboard tab presents comparative metric charts and confusion matrix images.
-
-**Plans**: TBD
-
-Plans:
-
-- [x] 06-01: Streamlit single-message classification interface with confidence gauge, explainability, and benchmark dashboard.
-
-### Phase 7: Bootstrap & Real Data Integration
-
-**Goal**: Add a `scripts/bootstrap.py` that downloads the real UCI SMS dataset, splits data, and trains all 5 models end-to-end so fresh clones work immediately; fix the `SMSDataLoader` fallback path; regenerate benchmark JSON and figures with honest numbers.
-**Depends on**: Phase 6 (v1.0 complete)
-**Requirements**: FIX-01, FIX-02, FIX-03
-**Success Criteria** (what must be TRUE):
-
-  1. Running `python scripts/bootstrap.py` on a fresh clone downloads the UCI SMS dataset, produces stratified splits, trains all 5 models, and saves them to `models/` without manual intervention.
-  2. `test_benchmark.json` and `reports/figures/` are regenerated from the real ~5.5k-message UCI dataset with honest Precision/Recall/F1/AUC numbers.
-  3. `SMSDataLoader.download_uci_dataset()` fallback returns the correct bundled sample file path (not a non-existent path).
-
-**Plans**: TBD
-
-### Phase 8: Configuration Wiring & Code Quality
-
-**Goal**: Wire all `config/config.py` constants through every consumer; remove fragile try/except ImportError config fallbacks; fix `TFIDFExtractor.fit_transform` small-dataset guards; strip raw arrays from benchmark JSON; fix model metadata paths; and clean up miscellaneous code quality issues.
-**Depends on**: Phase 7
-**Requirements**: FIX-04, FIX-05, FIX-06, FIX-11, FIX-12, FIX-13, FIX-14
-**Success Criteria** (what must be TRUE):
-
-  1. All hyperparameters in `config/config.py` (e.g. `TFIDF_MAX_FEATURES`, `TFIDF_NGRAM_RANGE`, `USE_STEMMING`, `MIN_DF`, `MAX_DF`) are read by model factories, `TextPreprocessor`, and `TFIDFExtractor` — no hardcoded duplicates exist outside `config/config.py`.
-  2. Direct imports replace every `try/except ImportError` config fallback block in trainer, metrics, plots, explainability, and split_data modules.
-  3. `TFIDFExtractor.fit_transform` applies identical `min_df`/`max_df` small-dataset guards as the `fit` + `transform` path.
-  4. `test_benchmark.json` contains only summary metrics (no `y_pred`/`y_prob` arrays), model metadata uses forward-slash paths on all platforms, and SSL workaround in `setup_env.py` is scoped to NLTK download only.
-  5. All identified code quality issues resolved: unused typing imports removed, `digit_ratio` magic constant named, sidebar emoji used instead of remote icon, `EMAIL_HEADER_RE` anchor fixed, `os.makedirs` edge case handled.
-
-**Plans**: TBD
-
-### Phase 9: App Robustness & UX Fixes
-
-**Goal**: Fix Streamlit "Clear Text" button using `st.session_state`; add graceful startup error handling when models are missing; route explainability to the user-selected model; pin all package versions in `requirements.txt`.
-**Depends on**: Phase 8
-**Requirements**: FIX-07, FIX-08, FIX-09, FIX-10
-**Success Criteria** (what must be TRUE):
-
-  1. The "Clear Text" button in Streamlit clears the text area without a page reload error, implemented via `key=` on `st.text_area` and `st.session_state` manipulation.
-  2. On fresh launch without `models/`, the app displays a human-readable "Run bootstrap first" message instead of crashing with a `FileNotFoundError` or `KeyError`.
-  3. The explainability panel outputs token contributions from the model the user selected in the sidebar (NB, LR, or SVM), not always Logistic Regression.
-  4. `requirements.txt` lists pinned versions for every direct dependency matching the current working install.
-
-**Plans**: TBD
-
-## Progress
-
-**Execution Order:**
-v1.0 Phases 1–6 (archived) → v2.0 Phases 7 → 8 → 9
-
-| Phase | Plans Complete | Status | Completed |
-|-------|----------------|--------|-----------|
-| 1. Environment & Project Foundation | 1/1 | Complete   | 2026-09-06 |
-| 2. Data Ingestion & NLP Preprocessing Pipeline | 2/2 | Complete   | 2026-09-06 |
-| 3. Feature Engineering & Feature Union | 2/2 | Complete   | 2026-09-06 |
-| 4. Model Training Harness & Persistence | 2/2 | Complete   | 2026-09-06 |
-| 5. Evaluation Suite & Explainability Engine | 2/2 | Complete   | 2026-09-06 |
-| 6. Interactive Streamlit Web Application | 1/1 | Complete   | 2026-09-06 |
-| 7. Bootstrap & Real Data Integration | 2/2 | Complete    | 2026-09-07 |
-| 8. Configuration Wiring & Code Quality | 0/? | Pending | — |
-| 9. App Robustness & UX Fixes | 0/? | Pending | — |
