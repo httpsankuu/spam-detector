@@ -108,12 +108,90 @@ class SMSDataLoader:
             zip_path.unlink(missing_ok=True)
             logger.info(f"Successfully extracted dataset to: {final_file}")
             return final_file
-        except Exception as exc:
+        except Exception as exc_primary:
+            if zip_path.exists():
+                zip_path.unlink(missing_ok=True)
             logger.warning(
-                f"Failed to download directly from UCI ({exc}). "
-                f"Falling back to built-in sample SMS corpus."
+                f"Primary UCI download failed ({exc_primary}). "
+                f"Attempting backup mirror..."
             )
-            return final_file
+            tsv_path = dest / "sms_backup.tsv"
+            try:
+                urllib.request.urlretrieve(self.UCI_BACKUP_URL, tsv_path)
+                logger.info(f"Downloaded SMS dataset from backup mirror -> {tsv_path}")
+                return tsv_path
+            except Exception as exc_backup:
+                logger.warning(
+                    f"Backup mirror also failed ({exc_backup}). "
+                    f"Using bundled sample at: {self.BUNDLED_SAMPLE_PATH}"
+                )
+                return self.BUNDLED_SAMPLE_PATH
+
+    def load_any_sms_file(self, filepath: str | Path) -> pd.DataFrame:
+        """
+        Load any SMS file returned by download_uci_dataset() and return a
+        normalized DataFrame with columns ['text', 'label'] (1=spam, 0=ham).
+
+        Handles three formats automatically:
+          1. data/raw/SMSSpamCollection — tab-sep, no header, columns: label_raw text
+          2. data/raw/sms_backup.tsv   — tab-sep, header row with v1 (label) and v2 (text)
+          3. data/raw/sample_sms.csv   — comma-sep, header row with text and label columns
+        """
+        path = Path(filepath)
+        if not path.exists():
+            raise FileNotFoundError(f"SMS file not found: {path}")
+
+        suffix = path.suffix.lower()
+
+        if suffix == ".csv":
+            # Bundled sample_sms.csv: already has columns ['text', 'label']
+            df = pd.read_csv(path, encoding="utf-8")
+            df["label"] = df["label"].astype(int)
+            df = df[["text", "label"]].dropna(subset=["text"])
+            logger.info(f"Loaded bundled sample SMS from {path}: {len(df)} rows")
+            return df
+
+        # Tab-separated file: detect header by inspecting first line
+        try:
+            with open(path, encoding="utf-8", errors="replace") as fh:
+                first_line = fh.readline().strip().lower()
+        except OSError as e:
+            raise FileNotFoundError(f"Cannot read {path}: {e}") from e
+
+        has_header = first_line.startswith("v1") or first_line.startswith("label")
+
+        if has_header:
+            # Backup TSV: header is "v1\tv2" where v1=label, v2=text
+            raw_df = pd.read_csv(
+                path, sep="\t", header=0,
+                encoding="utf-8", on_bad_lines="skip",
+            )
+            cols = list(raw_df.columns)
+            raw_df = raw_df.rename(columns={cols[0]: "label_raw", cols[1]: "text"})
+        else:
+            # Primary UCI format: no header, columns are label\ttext
+            try:
+                raw_df = pd.read_csv(
+                    path, sep="\t", header=None,
+                    names=["label_raw", "text"],
+                    encoding="utf-8", on_bad_lines="skip",
+                )
+            except UnicodeDecodeError:
+                raw_df = pd.read_csv(
+                    path, sep="\t", header=None,
+                    names=["label_raw", "text"],
+                    encoding="latin-1", on_bad_lines="skip",
+                )
+
+        from src.data.email_loader import EmailDataLoader
+        norm_df = EmailDataLoader.normalize_dataframe(
+            raw_df,
+            text_col="text",
+            label_col="label_raw",
+            spam_values=["spam", "SPAM", "Spam"],
+        )
+        EmailDataLoader.log_summary(norm_df, dataset_name=path.name)
+        return norm_df
 
     @classmethod
     def get_sample_sms(cls) -> pd.DataFrame:
