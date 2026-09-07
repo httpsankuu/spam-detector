@@ -50,9 +50,9 @@
     }
   ],
   "next": {
-    "command": "/gsd-progress",
-    "label": "Show progress",
-    "reason": "Unsure of state — showing progress"
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 9 of 9 · executing"
   },
-  "updated_at": "2026-09-07T08:35:58.093Z"
+  "updated_at": "2026-09-07T12:04:31.000Z"
 }
