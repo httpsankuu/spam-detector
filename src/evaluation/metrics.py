@@ -24,15 +24,10 @@ from sklearn.metrics import (
     roc_auc_score,
 )
 
-try:
-    from config.config import MODELS_DIR, TEST_BENCHMARK_JSON, TEST_DATA_PATH
-    DEFAULT_MODELS_DIR = str(MODELS_DIR)
-    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
-    DEFAULT_OUTPUT_JSON = str(TEST_BENCHMARK_JSON)
-except ImportError:
-    DEFAULT_MODELS_DIR = "models"
-    DEFAULT_TEST_PATH = "data/processed/test.csv"
-    DEFAULT_OUTPUT_JSON = "reports/test_benchmark.json"
+from config.config import MODELS_DIR, TEST_BENCHMARK_JSON, TEST_DATA_PATH
+DEFAULT_MODELS_DIR = str(MODELS_DIR)
+DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
+DEFAULT_OUTPUT_JSON = str(TEST_BENCHMARK_JSON)
 
 logging.basicConfig(
     level=logging.INFO,

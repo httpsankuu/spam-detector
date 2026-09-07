@@ -25,33 +25,35 @@ logging.basicConfig(
 logger = logging.getLogger("transformer")
 
 
+from config.config import (
+    MIN_WORD_LENGTH,
+    REMOVE_STOPWORDS,
+    REPLACE_URLS,
+    REPLACE_EMAILS,
+    REPLACE_CURRENCY,
+    REPLACE_NUMBERS,
+)
+
 class TextPreprocessor(BaseEstimator, TransformerMixin):
     """
-    Scikit-learn compatible transformer that applies full NLP text cleaning and lemmatization.
+    Scikit-learn compatible transformer that applies full NLP text cleaning
+    and lemmatization to a series or list of raw strings.
 
-    Parameters:
-        remove_html: If True, remove HTML tags
-        remove_headers: If True, strip email headers (Subject:, etc.)
-        replace_urls: If True, map URLs to token 'httpaddr'
-        replace_emails: If True, map emails to token 'emailaddr'
-        replace_currency: If True, map currency signs to 'dollar'
-        replace_numbers: If True, map standalone numbers to 'number'
-        lowercase: If True, convert characters to lowercase
-        remove_stopwords: If True, remove English stopwords
-        min_word_length: Minimum token length to retain
+    Parameters control which normalization steps are applied during the
+    `clean_text` and `tokenize_and_lemmatize` phases.
     """
 
     def __init__(
         self,
         remove_html: bool = True,
         remove_headers: bool = True,
-        replace_urls: bool = True,
-        replace_emails: bool = True,
-        replace_currency: bool = True,
-        replace_numbers: bool = True,
+        replace_urls: bool = REPLACE_URLS,
+        replace_emails: bool = REPLACE_EMAILS,
+        replace_currency: bool = REPLACE_CURRENCY,
+        replace_numbers: bool = REPLACE_NUMBERS,
         lowercase: bool = True,
-        remove_stopwords: bool = True,
-        min_word_length: int = 2,
+        remove_stopwords: bool = REMOVE_STOPWORDS,
+        min_word_length: int = MIN_WORD_LENGTH,
     ) -> None:
         self.remove_html = remove_html
         self.remove_headers = remove_headers

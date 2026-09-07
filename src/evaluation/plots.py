@@ -24,25 +24,19 @@ from sklearn.metrics import auc, roc_curve
 
 from src.evaluation.metrics import ModelEvaluator
 
-try:
-    from config.config import (
-        CONFUSION_MATRICES_PNG,
-        METRICS_COMPARISON_PNG,
-        ROC_CURVES_PNG,
-        TEST_BENCHMARK_JSON,
-        TEST_DATA_PATH,
-    )
-    DEFAULT_BENCHMARK_JSON = str(TEST_BENCHMARK_JSON)
-    DEFAULT_CM_PNG = str(CONFUSION_MATRICES_PNG)
-    DEFAULT_ROC_PNG = str(ROC_CURVES_PNG)
-    DEFAULT_METRICS_PNG = str(METRICS_COMPARISON_PNG)
-    DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
-except ImportError:
-    DEFAULT_BENCHMARK_JSON = "reports/test_benchmark.json"
-    DEFAULT_CM_PNG = "reports/figures/confusion_matrices.png"
-    DEFAULT_ROC_PNG = "reports/figures/roc_curves.png"
-    DEFAULT_METRICS_PNG = "reports/figures/metrics_comparison.png"
-    DEFAULT_TEST_PATH = "data/processed/test.csv"
+from config.config import (
+    CONFUSION_MATRICES_PNG,
+    METRICS_COMPARISON_PNG,
+    ROC_CURVES_PNG,
+    TEST_BENCHMARK_JSON,
+    TEST_DATA_PATH,
+)
+
+DEFAULT_BENCHMARK_JSON = str(TEST_BENCHMARK_JSON)
+DEFAULT_CM_PNG = str(CONFUSION_MATRICES_PNG)
+DEFAULT_ROC_PNG = str(ROC_CURVES_PNG)
+DEFAULT_METRICS_PNG = str(METRICS_COMPARISON_PNG)
+DEFAULT_TEST_PATH = str(TEST_DATA_PATH)
 
 logging.basicConfig(
     level=logging.INFO,

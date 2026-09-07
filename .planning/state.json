@@ -1,7 +1,7 @@
 {
   "contract": "1.0.0",
   "flavor": "core",
-  "milestone": null,
+  "milestone": "v2.0",
   "phases": [
     {
       "number": "1",
@@ -11,33 +11,48 @@
     {
       "number": "2",
       "name": "Data Ingestion & NLP Preprocessing Pipeline",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "3",
       "name": "Feature Engineering & Feature Union",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "4",
       "name": "Model Training Harness & Persistence",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "5",
       "name": "Evaluation Suite & Explainability Engine",
-      "status": "pending"
+      "status": "complete"
     },
     {
       "number": "6",
       "name": "Interactive Streamlit Web Application",
+      "status": "complete"
+    },
+    {
+      "number": "7",
+      "name": "Bootstrap & Real Data Integration",
+      "status": "complete"
+    },
+    {
+      "number": "8",
+      "name": "Configuration Wiring & Code Quality",
+      "status": "pending"
+    },
+    {
+      "number": "9",
+      "name": "App Robustness & UX Fixes",
       "status": "pending"
     }
   ],
   "next": {
-    "command": "/gsd-progress",
-    "label": "Show progress",
-    "reason": "Unsure of state — showing progress"
+    "command": "/gsd-progress --next",
+    "label": "Advance to the next step",
+    "reason": "Phase 8 of 9 · executing"
   },
-  "updated_at": "2026-09-06T14:03:14.608Z"
+  "updated_at": "2026-09-07T08:14:12.934Z"
 }

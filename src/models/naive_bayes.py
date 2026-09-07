@@ -26,6 +26,8 @@ logging.basicConfig(
 logger = logging.getLogger("naive_bayes")
 
 
+from config.config import NB_ALPHA, TFIDF_MAX_FEATURES
+
 class NaiveBayesClassifier:
     """
     Multinomial Naive Bayes classifier wrapper with Laplace smoothing and evaluation utilities.
@@ -35,7 +37,7 @@ class NaiveBayesClassifier:
         fit_prior: Whether to learn class prior probabilities from data
     """
 
-    def __init__(self, alpha: float = 1.0, fit_prior: bool = True) -> None:
+    def __init__(self, alpha: float = NB_ALPHA, fit_prior: bool = True) -> None:
         self.alpha = alpha
         self.fit_prior = fit_prior
         self.model = MultinomialNB(alpha=self.alpha, fit_prior=self.fit_prior)
@@ -81,7 +83,7 @@ class NaiveBayesClassifier:
         }
 
 
-def build_nb_pipeline(alpha: float = 1.0, max_features: int = 5000) -> Pipeline:
+def build_nb_pipeline(alpha: float = NB_ALPHA, max_features: int = TFIDF_MAX_FEATURES) -> Pipeline:
     """
     Construct a complete end-to-end scikit-learn Pipeline bundling
     UnifiedFeaturePipeline and MultinomialNB.

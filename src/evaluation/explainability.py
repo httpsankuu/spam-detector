@@ -20,11 +20,8 @@ import numpy as np
 
 from src.features.handcrafted_features import SPAM_TRIGGER_WORDS
 
-try:
-    from config.config import LOGISTIC_REGRESSION_MODEL_PATH
-    DEFAULT_MODEL_PATH = str(LOGISTIC_REGRESSION_MODEL_PATH)
-except ImportError:
-    DEFAULT_MODEL_PATH = "models/logistic_regression_pipeline.joblib"
+from config.config import LOGISTIC_REGRESSION_MODEL_PATH
+DEFAULT_MODEL_PATH = str(LOGISTIC_REGRESSION_MODEL_PATH)
 
 logging.basicConfig(
     level=logging.INFO,

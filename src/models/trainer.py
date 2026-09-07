@@ -30,24 +30,24 @@ from src.models.naive_bayes import build_nb_pipeline
 from src.models.svm_classifier import build_svm_pipeline
 from src.models.tree_classifier import build_ensemble_pipeline
 
-try:
-    from config.config import (
-        MODELS_DIR,
-        PROCESSED_DATA_DIR,
-        RANDOM_SEED,
-        TFIDF_MAX_FEATURES,
-        TRAIN_DATA_PATH,
-        VAL_DATA_PATH,
-    )
-    DEFAULT_TRAIN_PATH = str(TRAIN_DATA_PATH)
-    DEFAULT_VAL_PATH = str(VAL_DATA_PATH)
-    DEFAULT_MODELS_DIR = str(MODELS_DIR)
-    DEFAULT_MAX_FEATURES = TFIDF_MAX_FEATURES
-except ImportError:
-    DEFAULT_TRAIN_PATH = "data/processed/train.csv"
-    DEFAULT_VAL_PATH = "data/processed/val.csv"
-    DEFAULT_MODELS_DIR = "models"
-    DEFAULT_MAX_FEATURES = 5000
+from config.config import (
+    MODELS_DIR,
+    PROCESSED_DATA_DIR,
+    RANDOM_SEED,
+    TFIDF_MAX_FEATURES,
+    TRAIN_DATA_PATH,
+    VAL_DATA_PATH,
+    LR_C,
+    NB_ALPHA,
+    SVM_C,
+    RF_N_ESTIMATORS,
+    XGB_N_ESTIMATORS
+)
+
+DEFAULT_TRAIN_PATH = str(TRAIN_DATA_PATH)
+DEFAULT_VAL_PATH = str(VAL_DATA_PATH)
+DEFAULT_MODELS_DIR = str(MODELS_DIR)
+DEFAULT_MAX_FEATURES = TFIDF_MAX_FEATURES
 
 logging.basicConfig(
     level=logging.INFO,
@@ -89,11 +89,11 @@ def train_and_persist_all(
 
     # Define model configurations
     model_factories = {
-        "naive_bayes": lambda: build_nb_pipeline(alpha=1.0, max_features=max_features),
-        "logistic_regression": lambda: build_lr_pipeline(C=1.0, max_features=max_features),
-        "linear_svm": lambda: build_svm_pipeline(C=1.0, calibrate_probabilities=True, max_features=max_features),
-        "random_forest": lambda: build_ensemble_pipeline(model_type="random_forest", n_estimators=100, max_features=max_features),
-        "xgboost": lambda: build_ensemble_pipeline(model_type="xgboost", n_estimators=100, max_features=max_features),
+        "naive_bayes": lambda: build_nb_pipeline(alpha=NB_ALPHA, max_features=max_features),
+        "logistic_regression": lambda: build_lr_pipeline(C=LR_C, max_features=max_features),
+        "linear_svm": lambda: build_svm_pipeline(C=SVM_C, calibrate_probabilities=True, max_features=max_features),
+        "random_forest": lambda: build_ensemble_pipeline(model_type="random_forest", n_estimators=RF_N_ESTIMATORS, max_features=max_features),
+        "xgboost": lambda: build_ensemble_pipeline(model_type="xgboost", n_estimators=XGB_N_ESTIMATORS, max_features=max_features),
     }
 
     leaderboard: List[Dict[str, Any]] = []

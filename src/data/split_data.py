@@ -15,12 +15,7 @@ from typing import Dict, Tuple
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
-try:
-    from config.config import RANDOM_SEED, TEST_RATIO, VAL_RATIO
-except ImportError:
-    RANDOM_SEED = 42
-    TEST_RATIO = 0.2
-    VAL_RATIO = 0.1
+from config.config import RANDOM_SEED, TEST_RATIO, VAL_RATIO, PROCESSED_DATA_DIR
 
 logging.basicConfig(
     level=logging.INFO,
@@ -91,7 +86,7 @@ def save_splits(
     train_df: pd.DataFrame,
     val_df: pd.DataFrame,
     test_df: pd.DataFrame,
-    output_dir: str | Path = "data/processed",
+    output_dir: str | Path = PROCESSED_DATA_DIR,
 ) -> Dict[str, Path]:
     """
     Save train, val, and test splits into CSV files.

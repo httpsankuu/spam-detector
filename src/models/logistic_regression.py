@@ -26,13 +26,15 @@ logging.basicConfig(
 logger = logging.getLogger("logistic_regression")
 
 
+from config.config import LR_C, LR_MAX_ITER, LR_CLASS_WEIGHT, TFIDF_MAX_FEATURES, RANDOM_SEED
+
 class LogisticRegressionClassifier:
     """
-    Logistic Regression classifier wrapper with regularized loss and explainable coefficients.
+    Scikit-learn Logistic Regression wrapper configured for text classification.
 
     Parameters:
-        C: Inverse of regularization strength (smaller values specify stronger regularization)
-        max_iter: Maximum solver iterations
+        C: Inverse regularization strength (smaller values specify stronger regularization)
+        max_iter: Maximum iterations for solvers to converge
         class_weight: Strategy for handling class imbalance ('balanced' or None)
         solver: Optimization algorithm ('lbfgs', 'liblinear')
         random_state: Seed for reproducibility
@@ -40,11 +42,11 @@ class LogisticRegressionClassifier:
 
     def __init__(
         self,
-        C: float = 1.0,
-        max_iter: int = 1000,
-        class_weight: Optional[Union[str, Dict[int, float]]] = "balanced",
+        C: float = LR_C,
+        max_iter: int = LR_MAX_ITER,
+        class_weight: Optional[Union[str, Dict[int, float]]] = LR_CLASS_WEIGHT,
         solver: str = "lbfgs",
-        random_state: int = 42,
+        random_state: int = RANDOM_SEED,
     ) -> None:
         self.C = C
         self.max_iter = max_iter
@@ -118,17 +120,16 @@ class LogisticRegressionClassifier:
 
 
 def build_lr_pipeline(
-    C: float = 1.0,
-    class_weight: str = "balanced",
-    max_features: int = 5000,
+    C: float = LR_C,
+    class_weight: Optional[str] = LR_CLASS_WEIGHT,
+    max_features: int = TFIDF_MAX_FEATURES,
 ) -> Pipeline:
     """
-    Construct a complete end-to-end scikit-learn Pipeline bundling
-    UnifiedFeaturePipeline and LogisticRegression.
+    Construct a complete scikit-learn Pipeline bundling UnifiedFeaturePipeline and LogisticRegression.
     """
     return Pipeline([
         ("features", build_feature_pipeline(max_features=max_features)),
-        ("lr", LogisticRegression(C=C, class_weight=class_weight, max_iter=1000, random_state=42)),
+        ("lr", LogisticRegression(C=C, class_weight=class_weight, max_iter=LR_MAX_ITER, random_state=RANDOM_SEED)),
     ])
 
 
