@@ -61,6 +61,5 @@
 | REQ-ID | Phase | Plan |
 |--------|-------|------|
 | REPRO-01, REPRO-02, REPRO-03, DATA-01 | Phase 7 | TBD |
-| CFG-01, CFG-02, CFG-03, CFG-04, FEAT-01 | Phase 8 | TBD |
-| UI-01, UI-02, UI-03, UI-04 | Phase 9 | TBD |
-| QUAL-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05 | Phase 10 | TBD |
+| CFG-01, CFG-02, CFG-03, CFG-04, FEAT-01, QUAL-02, QUAL-03, QUAL-04, QUAL-05 | Phase 8 | TBD |
+| UI-01, UI-02, UI-03, UI-04, QUAL-01 | Phase 9 | TBD |
