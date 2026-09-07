@@ -135,7 +135,7 @@ def train_and_persist_all(
         model_filename = f"{model_name}_pipeline.joblib"
         model_filepath = os.path.join(output_dir, model_filename)
         joblib.dump(pipeline, model_filepath)
-        models_saved[model_name] = model_filepath
+        models_saved[model_name] = Path(model_filepath).as_posix()
         logger.info(f"Saved {model_name} pipeline -> {model_filepath}")
 
     # Build summary leaderboard DataFrame

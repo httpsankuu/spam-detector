@@ -117,7 +117,8 @@ class TFIDFExtractor(BaseEstimator, TransformerMixin):
         """
         Fit and transform documents in a single optimized pass.
         """
-        return self.vectorizer_.fit_transform(X)
+        docs = list(X)
+        return self.fit(docs, y).transform(docs)
 
     def get_feature_names(self) -> List[str]:
         """

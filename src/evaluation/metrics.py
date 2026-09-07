@@ -125,8 +125,6 @@ class ModelEvaluator:
                 "fn": int(fn),
                 "tp": int(tp),
             },
-            "y_pred": preds.tolist(),
-            "y_prob": probs.tolist() if probs is not None else None,
         }
 
     def evaluate_all(
