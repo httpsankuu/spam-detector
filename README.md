@@ -138,7 +138,4 @@ pytest -v
 - [x] **Phase 5: Evaluation Suite & Explainability Engine** — Multi-metric benchmark (Precision, Recall, F1, ROC-AUC), confusion matrices/ROC curves, and top keyword explainability.
 - [x] **Phase 6: Interactive Streamlit Web Application** — Interactive demo with live message testing, confidence scores, keyword highlights, and comparative charts.
 
----
 
-## 📄 License
-This project is licensed under the MIT License.
