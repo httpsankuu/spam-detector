@@ -218,7 +218,7 @@ def main() -> None:
             - **Serialization**: Scikit-Learn Joblib
             """
         )
-        st.caption("College ML Project • Antigravity Build")
+
 
     # App Header
     st.markdown('<div class="main-header">🛡️ AI-Based Spam Email Detection</div>', unsafe_allow_html=True)
