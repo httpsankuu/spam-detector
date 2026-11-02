@@ -1,0 +1,54 @@
+{
+  "timestamp": "2026-09-07T14:05:05.959652",
+  "train_samples": 3610,
+  "val_samples": 516,
+  "leaderboard": [
+    {
+      "model_name": "naive_bayes",
+      "accuracy": 0.9631782945736435,
+      "precision": 0.9787234042553191,
+      "recall": 0.71875,
+      "f1_score": 0.8288288288288288,
+      "roc_auc": 0.9856886061946903
+    },
+    {
+      "model_name": "logistic_regression",
+      "accuracy": 0.9728682170542635,
+      "precision": 0.8787878787878788,
+      "recall": 0.90625,
+      "f1_score": 0.8923076923076924,
+      "roc_auc": 0.9820934734513274
+    },
+    {
+      "model_name": "linear_svm",
+      "accuracy": 0.9806201550387597,
+      "precision": 0.9354838709677419,
+      "recall": 0.90625,
+      "f1_score": 0.9206349206349206,
+      "roc_auc": 0.9895602876106195
+    },
+    {
+      "model_name": "random_forest",
+      "accuracy": 0.9825581395348837,
+      "precision": 0.9824561403508771,
+      "recall": 0.875,
+      "f1_score": 0.9256198347107438,
+      "roc_auc": 0.9781526548672566
+    },
+    {
+      "model_name": "xgboost",
+      "accuracy": 0.9806201550387597,
+      "precision": 0.9655172413793104,
+      "recall": 0.875,
+      "f1_score": 0.9180327868852459,
+      "roc_auc": 0.9803996128318584
+    }
+  ],
+  "models_saved": {
+    "naive_bayes": "C:/Users/Ankit Kumar Singh/Desktop/spam-detector/models/naive_bayes_pipeline.joblib",
+    "logistic_regression": "C:/Users/Ankit Kumar Singh/Desktop/spam-detector/models/logistic_regression_pipeline.joblib",
+    "linear_svm": "C:/Users/Ankit Kumar Singh/Desktop/spam-detector/models/linear_svm_pipeline.joblib",
+    "random_forest": "C:/Users/Ankit Kumar Singh/Desktop/spam-detector/models/random_forest_pipeline.joblib",
+    "xgboost": "C:/Users/Ankit Kumar Singh/Desktop/spam-detector/models/xgboost_pipeline.joblib"
+  }
+}

@@ -13,16 +13,16 @@ __pycache__/
 .coverage
 htmlcov/
 
-# Data files (keep folder structure via .gitkeep)
-data/raw/*
-!data/raw/.gitkeep
-data/processed/*
-!data/processed/.gitkeep
+# Data files (processed splits kept in repo for notebooks & deployment)
+# data/raw/*
+# !data/raw/.gitkeep
+# data/processed/*
+# !data/processed/.gitkeep
 
-# Trained Model Artifacts
-models/*.joblib
-models/*.pkl
-models/*.json
+# Trained Model Artifacts (kept in repo for deployment & presentation)
+# models/*.joblib
+# models/*.pkl
+# models/*.json
 !models/.gitkeep
 
 # Jupyter Notebook Checkpoints
