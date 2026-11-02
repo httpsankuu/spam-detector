@@ -9,7 +9,7 @@
 2. Click **New app**.
 3. Select repository, branch `main`, and file path `app/streamlit_app.py`.
 4. Click **Deploy**.
-5. The app will be live at `https://<your-app>.streamlit.app`.
+5. The app will be live at `https://spamdetector-byankit.streamlit.app`.
 
 ## Notes
 - `models/` contain ~2.4MB of `.joblib` files; Streamlit handles this fine.
