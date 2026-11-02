@@ -164,5 +164,7 @@ See `DEPLOYMENT.md` for full instructions. Quick steps:
 - [x] **Phase 4: Model Training Harness & Persistence** — Step-by-step training and serialization of Multinomial Naive Bayes, Logistic Regression, Linear SVM, and Random Forest / XGBoost.
 - [x] **Phase 5: Evaluation Suite & Explainability Engine** — Multi-metric benchmark (Precision, Recall, F1, ROC-AUC), confusion matrices/ROC curves, and top keyword explainability.
 - [x] **Phase 6: Interactive Streamlit Web Application** — Interactive demo with live message testing, confidence scores, keyword highlights, and comparative charts.
+- [x] **Phase 7: Documentation & Presentation** — `PRESENTATION.md`, `DEPLOYMENT.md`, `LICENSE`, `.streamlit/config.toml`, `notebooks/` (EDA + model comparison), cleaned artifacts, updated `.gitignore`.
+- [x] **Phase 8: Repository Cleanup & Push** — Removed `.planning/` artifacts, added deployment guide, updated `README.md`, pushed all changes to `main`.
 
 
