@@ -44,10 +44,11 @@ st.markdown(
     """
     <style>
     .main-header {
-        font-size: 2.3rem;
-        font-weight: 800;
-        color: #1E293B;
-        margin-bottom: 0.2rem;
+        font-size: 2.4rem;
+        font-weight: 600;
+        color: #F8FAFC;
+        letter-spacing: -0.02em;
+        margin-bottom: 0.25rem;
     }
     .sub-header {
         font-size: 1.05rem;
