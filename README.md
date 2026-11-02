@@ -34,7 +34,9 @@ spam-detector/
 │   ├── raw/                  # Raw starter datasets (sample_emails.csv, sample_sms.csv)
 │   └── processed/            # Cleaned and stratified splits (train.csv, val.csv, test.csv)
 ├── models/                   # Serialized ML pipelines (.joblib) and model_metadata.json
-├── notebooks/                # Exploratory Data Analysis & step-by-step walkthroughs
+├── notebooks/                # Jupyter notebooks (EDA + model comparison)
+│   ├── 01_eda.ipynb
+│   └── 02_model_comparison.ipynb
 ├── reports/                  # Benchmark metrics JSON & publication figures (300 DPI)
 │   ├── test_benchmark.json   # Full held-out test evaluation scores
 │   └── figures/              # Confusion matrices, ROC curves, metrics bar charts
@@ -49,8 +51,15 @@ spam-detector/
 │       └── setup_env.py      # Automated health check & NLTK corpus bootstrap
 ├── tests/                    # Automated pytest test suite
 │   └── test_pipeline.py      # Unit and integration tests for all modules
-├── .gitignore                # Git exclusions (virtualenvs, cache, binary models)
-├── AGENTS.md                 # Project architecture & development conventions
+├── .streamlit/                # Streamlit theming & server config
+│   └── config.toml             # Theme settings
+├── notebooks/                # Jupyter notebooks (EDA + model comparison)
+│   ├── 01_eda.ipynb
+│   └── 02_model_comparison.ipynb
+├── .gitignore                # Git exclusions (virtualenvs, cache)
+├── DEPLOYMENT.md             # Streamlit Cloud deployment instructions
+├── LICENSE                   # MIT License
+├── PRESENTATION.md           # 1-page explanation for professor / review
 ├── README.md                 # Project documentation and setup guide
 └── requirements.txt          # Pinned Python package dependencies
 ```
@@ -114,7 +123,14 @@ streamlit run app/streamlit_app.py
 ```
 Open your browser at `http://localhost:8501`.
 
-### 6. Retrain Models & Regenerate Figures (Optional)
+### 6. View Notebooks
+Open Jupyter notebooks for step-by-step analysis:
+```bash
+jupyter notebook notebooks/01_eda.ipynb
+jupyter notebook notebooks/02_model_comparison.ipynb
+```
+
+### 7. Retrain Models & Regenerate Figures (Optional)
 To retrain all 5 models and re-evaluate benchmarks:
 ```bash
 # 1. Train and serialize all 5 models
@@ -126,6 +142,17 @@ python -m src.evaluation.plots
 # 3. Run automated tests
 pytest -v
 ```
+
+---
+
+## 🚀 Deployment (Streamlit Cloud)
+
+See `DEPLOYMENT.md` for full instructions. Quick steps:
+
+1. Push repository to GitHub (models included via `.gitignore` update).
+2. Go to [streamlit.io/cloud](https://streamlit.io/cloud) → New app.
+3. Select `app/streamlit_app.py`.
+4. Deploy.
 
 ---
 
