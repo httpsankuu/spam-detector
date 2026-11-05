@@ -9,7 +9,7 @@
 
 An end-to-end machine learning system that accurately classifies emails (and SMS messages) as **Spam** or legitimate **Ham**. Developed as a comprehensive academic ML capstone project, this system features a modular NLP preprocessing pipeline, benchmarks multiple classical and ensemble algorithms (Naive Bayes, Logistic Regression, Linear SVM, Random Forest, and XGBoost), provides prediction explainability, and hosts an interactive Streamlit web application.
 
-**Live App:** [https://spamdetector-byankit.streamlit.app/](https://spamdetector-byankit.streamlit.app/)
+**Live App:** [Website Link 🚀](https://spamdetector-byankit.streamlit.app/)
 
 ---
 
