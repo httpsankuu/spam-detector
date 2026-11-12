@@ -37,9 +37,6 @@ spam-detector/
 │   ├── raw/                  # Raw starter datasets (sample_emails.csv, sample_sms.csv)
 │   └── processed/            # Cleaned and stratified splits (train.csv, val.csv, test.csv)
 ├── models/                   # Serialized ML pipelines (.joblib) and model_metadata.json
-├── notebooks/                # Jupyter notebooks (EDA + model comparison)
-│   ├── 01_eda.ipynb
-│   └── 02_model_comparison.ipynb
 ├── reports/                  # Benchmark metrics JSON & publication figures (300 DPI)
 │   ├── test_benchmark.json   # Full held-out test evaluation scores
 │   └── figures/              # Confusion matrices, ROC curves, metrics bar charts
@@ -56,11 +53,7 @@ spam-detector/
 │   └── test_pipeline.py      # Unit and integration tests for all modules
 ├── .streamlit/                # Streamlit theming & server config
 │   └── config.toml             # Theme settings
-├── notebooks/                # Jupyter notebooks (EDA + model comparison)
-│   ├── 01_eda.ipynb
-│   └── 02_model_comparison.ipynb
 ├── .gitignore                # Git exclusions (virtualenvs, cache)
-├── DEPLOYMENT.md             # Streamlit Cloud deployment instructions
 ├── LICENSE                   # MIT License
 ├── PRESENTATION.md           # 1-page explanation for professor / review
 ├── README.md                 # Project documentation and setup guide
@@ -126,14 +119,7 @@ streamlit run app/streamlit_app.py
 ```
 Open your browser at `http://localhost:8501`.
 
-### 6. View Notebooks
-Open Jupyter notebooks for step-by-step analysis:
-```bash
-jupyter notebook notebooks/01_eda.ipynb
-jupyter notebook notebooks/02_model_comparison.ipynb
-```
-
-### 7. Retrain Models & Regenerate Figures (Optional)
+### 6. Retrain Models & Regenerate Figures (Optional)
 To retrain all 5 models and re-evaluate benchmarks:
 ```bash
 # 1. Train and serialize all 5 models
@@ -162,7 +148,7 @@ pytest -v
 - [x] **Phase 4: Model Training Harness & Persistence** — Step-by-step training and serialization of Multinomial Naive Bayes, Logistic Regression, Linear SVM, and Random Forest / XGBoost.
 - [x] **Phase 5: Evaluation Suite & Explainability Engine** — Multi-metric benchmark (Precision, Recall, F1, ROC-AUC), confusion matrices/ROC curves, and top keyword explainability.
 - [x] **Phase 6: Interactive Streamlit Web Application** — Interactive demo with live message testing, confidence scores, keyword highlights, and comparative charts.
-- [x] **Phase 7: Documentation & Presentation** — `PRESENTATION.md`, `DEPLOYMENT.md`, `LICENSE`, `.streamlit/config.toml`, `notebooks/` (EDA + model comparison), cleaned artifacts, updated `.gitignore`.
+- [x] **Phase 7: Documentation & Presentation** — `PRESENTATION.md`, `LICENSE`, `.streamlit/config.toml`, cleaned artifacts, updated `.gitignore`.
 - [x] **Phase 8: Repository Cleanup & Push** — Removed `.planning/` artifacts, added deployment guide, updated `README.md`, pushed all changes to `main`.
 
 
