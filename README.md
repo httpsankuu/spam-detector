@@ -9,7 +9,8 @@
 
 An end-to-end machine learning system that accurately classifies emails (and SMS messages) as **Spam** or legitimate **Ham**. Developed as a comprehensive academic ML capstone project, this system features a modular NLP preprocessing pipeline, benchmarks multiple classical and ensemble algorithms (Naive Bayes, Logistic Regression, Linear SVM, Random Forest, and XGBoost), provides prediction explainability, and hosts an interactive Streamlit web application.
 
-**Live App:** [Website Link 🚀](https://spamdetector-byankit.streamlit.app/)
+**Live App:** [Website Link 🚀](https://spamdetector-byankit.streamlit.app/)  
+**Dataset:** [SMS Spam Collection Dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
 
 ---
 
@@ -147,14 +148,9 @@ pytest -v
 
 ---
 
-## 🚀 Deployment (Streamlit Cloud)
+## 📊 Dataset
 
-See `DEPLOYMENT.md` for full instructions. Quick steps:
-
-1. Push repository to GitHub (models included via `.gitignore` update).
-2. Go to [streamlit.io/cloud](https://streamlit.io/cloud) → New app.
-3. Select `app/streamlit_app.py`.
-4. Deploy.
+- **UCI Machine Learning Repository**: [SMS Spam Collection Dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
 
 ---
 
