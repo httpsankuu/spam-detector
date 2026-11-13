@@ -134,11 +134,6 @@ pytest -v
 
 ---
 
-## 📊 Dataset
-
-- **UCI Machine Learning Repository**: [SMS Spam Collection Dataset](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
-
----
 
 ## 🗺 Development Roadmap
 
