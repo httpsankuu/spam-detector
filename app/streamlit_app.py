@@ -10,6 +10,7 @@ Provides an interactive user interface to:
 
 from __future__ import annotations
 
+import html
 import json
 import os
 import re
@@ -83,22 +84,58 @@ st.markdown(
         border: 1px solid #4ADE80;
     }
     .trigger-tag {
-        background-color: #FEF3C7;
-        color: #92400E;
-        padding: 3px 10px;
-        border-radius: 12px;
+        background-color: rgba(239, 68, 68, 0.15);
+        color: #FCA5A5;
+        padding: 4px 10px;
+        border-radius: 8px;
         font-size: 0.85rem;
         font-weight: 600;
         margin-right: 6px;
         margin-bottom: 6px;
-        display: inline-block;
-        border: 1px solid #FCD34D;
+        display: inline-flex;
+        align-items: center;
+        border: 1px solid rgba(239, 68, 68, 0.35);
+    }
+    .annotated-box {
+        background-color: #1E293B !important;
+        color: #F1F5F9 !important;
+        border: 1px solid #334155;
+        border-radius: 8px;
+        padding: 16px;
+        font-size: 0.95rem;
+        line-height: 1.7;
+        letter-spacing: 0.01em;
+        max-height: 240px;
+        overflow-y: auto;
+        word-break: break-word;
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.25);
+    }
+    .annotated-box::-webkit-scrollbar {
+        width: 6px;
+    }
+    .annotated-box::-webkit-scrollbar-track {
+        background: #0F172A;
+        border-radius: 4px;
+    }
+    .annotated-box::-webkit-scrollbar-thumb {
+        background: #475569;
+        border-radius: 4px;
+    }
+    .annotated-box::-webkit-scrollbar-thumb:hover {
+        background: #64748B;
     }
     .highlight-spam {
-        background-color: #FED7AA;
-        font-weight: bold;
-        padding: 1px 4px;
-        border-radius: 4px;
+        background-color: #DC2626 !important;
+        color: #FFFFFF !important;
+        font-weight: 700 !important;
+        padding: 2px 7px !important;
+        margin: 0 1px;
+        border-radius: 4px !important;
+        border: 1px solid #EF4444 !important;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        display: inline;
+        box-decoration-break: clone;
+        -webkit-box-decoration-break: clone;
     }
     </style>
     """,
@@ -163,12 +200,25 @@ def get_explainer(model_path: str) -> SpamExplainer:
 
 
 def render_highlighted_text(text: str, triggers: List[str]) -> str:
-    """Render HTML with highlighted spam trigger words."""
-    highlighted = text
-    for t in sorted(triggers, key=len, reverse=True):
-        pattern = re.compile(r"\b(" + re.escape(t) + r")\b", re.IGNORECASE)
-        highlighted = pattern.sub(r'<span class="highlight-spam">\1</span>', highlighted)
-    # Convert newlines to HTML breaks
+    """Render HTML with highlighted spam trigger words, escaping raw text safely."""
+    if not text:
+        return ""
+    if not triggers:
+        return html.escape(text).replace("\n", "<br>")
+
+    # Sort triggers by descending length so multi-word phrases match before substrings
+    sorted_triggers = sorted(set(triggers), key=len, reverse=True)
+    escaped_triggers = [r"\b" + re.escape(t) + r"\b" for t in sorted_triggers]
+    combined_pattern = re.compile("(" + "|".join(escaped_triggers) + ")", re.IGNORECASE)
+
+    # Escape HTML entities first to prevent injection or broken tags
+    escaped_text = html.escape(text)
+
+    def replace_match(match: re.Match[str]) -> str:
+        word = match.group(0)
+        return f'<span class="highlight-spam">{word}</span>'
+
+    highlighted = combined_pattern.sub(replace_match, escaped_text)
     highlighted = highlighted.replace("\n", "<br>")
     return highlighted
 
@@ -314,15 +364,28 @@ def main() -> None:
                 st.markdown("### 🏷️ Detected Spam Trigger Keywords")
                 triggers = exp_data.get("detected_triggers", [])
                 if triggers:
-                    tags_html = "".join([f'<span class="trigger-tag">{t}</span>' for t in triggers])
+                    tags_html = "".join([f'<span class="trigger-tag">🚩 {t}</span>' for t in triggers])
                     st.markdown(tags_html, unsafe_allow_html=True)
                 else:
                     st.info("No overt spam trigger keywords detected.")
 
-                st.markdown("#### Annotated Message Preview")
+                # Header with visual trigger count badge
+                trigger_badge = (
+                    f'<span style="font-size:0.75rem; background:rgba(239,68,68,0.2); color:#FCA5A5; border:1px solid rgba(239,68,68,0.4); padding:3px 9px; border-radius:12px; font-weight:600;">🚩 {len(triggers)} trigger(s) highlighted</span>'
+                    if triggers
+                    else '<span style="font-size:0.75rem; background:rgba(34,197,94,0.15); color:#86EFAC; border:1px solid rgba(34,197,94,0.3); padding:3px 9px; border-radius:12px; font-weight:600;">✅ Clean (0 triggers)</span>'
+                )
+                st.markdown(
+                    f'<div style="display:flex; justify-content:space-between; align-items:center; margin-top:14px; margin-bottom:8px;">'
+                    f'<h4 style="margin:0; font-size:1.05rem; font-weight:600;">Annotated Message Preview</h4>'
+                    f'{trigger_badge}'
+                    f'</div>',
+                    unsafe_allow_html=True,
+                )
+
                 annotated_html = render_highlighted_text(user_input, triggers)
                 st.markdown(
-                    f'<div style="background:#FFFFFF; border:1px solid #E2E8F0; padding:12px; border-radius:8px; font-size:0.95rem; max-height:200px; overflow-y:auto;">{annotated_html}</div>',
+                    f'<div class="annotated-box">{annotated_html}</div>',
                     unsafe_allow_html=True,
                 )
 
