@@ -420,7 +420,9 @@ def main() -> None:
                         spam_signals = exp_data.get("top_spam_signals", [])
                         if spam_signals:
                             df_spam_sig = pd.DataFrame(spam_signals)[["feature", "contribution"]]
-                            st.dataframe(df_spam_sig, use_container_width=True, hide_index=True)
+                            df_spam_sig.columns = ["Feature Token", "Attribution (+Spam)"]
+                            styled_spam_sig = df_spam_sig.style.format({"Attribution (+Spam)": "{:+.4f}"})
+                            st.dataframe(styled_spam_sig, use_container_width=True, hide_index=True)
                         else:
                             st.write("None active.")
 
@@ -429,7 +431,9 @@ def main() -> None:
                         ham_signals = exp_data.get("top_ham_signals", [])
                         if ham_signals:
                             df_ham_sig = pd.DataFrame(ham_signals)[["feature", "contribution"]]
-                            st.dataframe(df_ham_sig, use_container_width=True, hide_index=True)
+                            df_ham_sig.columns = ["Feature Token", "Attribution (-Ham)"]
+                            styled_ham_sig = df_ham_sig.style.format({"Attribution (-Ham)": "{:+.4f}"})
+                            st.dataframe(styled_ham_sig, use_container_width=True, hide_index=True)
                         else:
                             st.write("None active.")
 
@@ -450,12 +454,24 @@ def main() -> None:
             df_bench = pd.DataFrame(bench_data["summary"])
             df_bench["Model"] = df_bench["Model"].apply(lambda x: x.replace("_", " ").title())
 
+            # Format numeric columns cleanly to 4 decimal places
+            float_cols = df_bench.select_dtypes(include=["float", "float64"]).columns.tolist()
+            format_dict = {col: "{:.4f}" for col in float_cols}
+
             st.markdown("#### 🏆 Test Set Performance Leaderboard")
-            st.dataframe(
-                df_bench.style.highlight_max(
+            st.caption("🟢 **Emerald Highlight** indicates the top-performing model score for each metric (high contrast).")
+
+            styled_bench = (
+                df_bench.style
+                .format(format_dict)
+                .highlight_max(
                     subset=["Accuracy", "Precision", "Recall", "F1-Score", "ROC-AUC"],
-                    color="#DCFCE7",
-                ),
+                    props="background-color: #065F46; color: #FFFFFF; font-weight: 700;",
+                )
+            )
+
+            st.dataframe(
+                styled_bench,
                 use_container_width=True,
                 hide_index=True,
             )
